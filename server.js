@@ -99,6 +99,6 @@ function insertDB(reqFile, reqType, reqId) {
 }
 */
 
-var server = app.listen(8080, function() {
+var server = app.listen(8592, function() {
     console.log('Listening on port %d', server.address().port);
 });
