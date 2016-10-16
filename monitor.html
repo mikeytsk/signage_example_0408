@@ -1,0 +1,83 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href="/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" media="screen">
+		<link href="/video-js/video-js.css" rel="stylesheet" type="text/css">
+		<script src="/video-js/video.js"></script>
+		<script src="/jquery/1.11.0/jquery-1.11.0.min.js"></script>
+		<script src="/socket.io/socket.io.js"></script>
+
+		<!-- webos default lib -->
+		<!--
+		<script src="/procentric/scap/application/cordova/2.7.0/cordova.webos.js"></script>
+		<script src="/procentric/scap/application/cordova-cd/1.0/configuration.js"></script>
+		<script src="/procentric/scap/application/cordova-cd/1.0/deviceInfo.js"></script>
+		<script src="/procentric/scap/application/cordova-cd/1.0/inputSource.js"></script>
+		<script src="/procentric/scap/application/cordova-cd/1.0/power.js"></script>
+		<script src="/procentric/scap/application/cordova-cd/1.0/signage.js"></script>
+		<script src="/procentric/scap/application/cordova-cd/1.0/sound.js"></script>
+		<script src="/procentric/scap/application/cordova-cd/1.0/storage.js"></script>
+		<script src="/procentric/scap/application/cordova-cd/1.0/video.js"></script>
+		-->
+	</head>
+	<body>
+
+		<div class="container">
+			<p></p>
+			<div class="span9" style="border:2px solid #ddd;background:#efefef">
+				<div id="msgLog"
+				class="span8"
+				style="height:300px;width:660px;border:1px solid #efefef;overflow-x:hidden;overflow-y:auto">
+					</br>
+				</div>
+				<div class="span9">
+					<input id="nameTxt" type="text" style='height:27px;margin-top:8px;width:80px'
+					class="span2" value="무명" placeholder="대화명"/>
+					<input id="msgTxt" type="text" style='height:27px;margin-top:8px;width:260px'
+					class="span4"/>
+					<input type="button" id="sendBtn" class="btn btn-small btn-primary" value="Send">
+
+				</div>
+			</div>
+		</div>
+
+	</body>
+</html>
+
+<script src="/resources/rpc-client.js"></script>
+<script>
+	function play() {
+		console.log("media play!");
+	}
+
+	function pause() {
+		console.log("media pause!");
+	}
+
+	function currentTime(sec) {
+	}
+
+	function full() {
+		console.log("media full screen");
+	}
+
+	function refresh() {
+		location.refresh();
+	}
+
+	function setSource(data) {
+	}
+</script>
+
+<!-- for webOS -->
+<script>
+	function reboot() {
+		writeMessage("API Call : reboot");
+	}
+	
+	function getNetworkInfo(){
+		writeMessage("API Call : getNetworkInfo!");
+	}
+	
+</script>

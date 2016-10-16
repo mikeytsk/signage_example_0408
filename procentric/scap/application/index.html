@@ -1,0 +1,229 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href="/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" media="screen">
+		<link href="client.css" rel="stylesheet">
+
+		<script src="/jquery/1.11.0/jquery-1.11.0.min.js"></script>
+		<script src="/socket.io/socket.io.js"></script>
+
+		<!-- webos default lib -->
+		<script src="/procentric/scap/application/cordova/2.7.0/cordova.webos.js"></script>
+		<script src="/procentric/scap/application/cordova-cd/1.2/configuration.js"></script>
+		<script src="/procentric/scap/application/cordova-cd/1.2/deviceInfo.js"></script>
+		<script src="/procentric/scap/application/cordova-cd/1.2/inputSource.js"></script>
+		<script src="/procentric/scap/application/cordova-cd/1.2/power.js"></script>
+		<script src="/procentric/scap/application/cordova-cd/1.2/signage.js"></script>
+		<script src="/procentric/scap/application/cordova-cd/1.2/sound.js"></script>
+		<script src="/procentric/scap/application/cordova-cd/1.2/storage.js"></script>
+		<script src="/procentric/scap/application/cordova-cd/1.2/video.js"></script>
+
+		<script src="/resources/comunication.js"></script>
+	</head>
+	<!--
+	video tag sample
+	<source src="/resources/video/140402_LGE_FHD_laverkusen_Global.tp"></source>
+	-->
+
+	<body>
+		<!-- log start -->
+		<div id="msgLog" class="col-lg-6 debuglog"></div>
+		<!-- log end -->
+
+		<video id="mediaplayer" autoplay controls class="cine1-video">
+			<source src="/resources/video/sample.mp4"></source>
+		</video>
+
+		<!-- cine1 start-->
+		<div id="cine1">
+			<div id="main-bg" class="container-fluid clientmainbg">
+				<div id="first" class="cine1-bg"></div>
+			</div>
+		</div>
+		<!-- cine1 end-->
+
+		<!-- cine2 start-->
+		<div id="cine2">
+			<div id="main-bg" class="container-fluid clientmainbg">
+				<div id="first" class="cine2-bg"></div>
+			</div>
+		</div>
+		<!-- cine2 end-->
+
+		<!-- cine3 start-->
+		<div id="cine3">
+			<div id="main-bg" class="container-fluid clientmainbg">
+				<div id="first" class="cine3-bg"></div>
+			</div>
+		</div>
+		<!-- cine3 end-->
+
+	</body>
+</html>
+
+<script src="/resources/rpc-client.js"></script>
+<script src="/resources/common.js"></script>
+<!-- for webOS -->
+<script>
+	var schedulingCineTimer1 = 300000;
+	var schedulingCineTimer2 = 300000;
+	var schedulingCineTimer3 = 300000;
+	var cineChangeTime = 300000;
+	var useScheduling = true;
+
+	var mediaplayer = $("#mediaplayer");
+
+	function enableCineScheduling() {
+		useScheduling = true;
+	}
+
+	function disableCineScheduling() {
+		useScheduling = false;
+	}
+
+	var video = document.getElementsByTagName('video')[0];
+	function mediaplay() {
+		writeMessage("ended event!");
+		console.log("ended event !!!");
+		//var video = document.getElementsByTagName("mediapla);
+		video.play();
+		video.src = "/resources/video/sample.mp4";
+	}
+        video.addEventListener("error", function() {mediaplay();}, true);	
+        video.addEventListener("ended", function() {mediaplay();}, true);	
+        video.addEventListener("abort", function() {mediaplay();}, true);	
+/*
+	video.onended = function(e) {
+		writeMessage("replay on ended event");
+		console.log("receive event" + e);
+		mediaplay();
+	}	
+*/
+	var _bgid = "cine1";
+	var receiveManualCommand = false;
+	var countCineChange = 0;
+	var timer = "";
+
+	function changeBackground() {
+		console.log("changeBackground");
+		console.log("cine1 msec :" + schedulingCineTimer1);
+		console.log("cine2 msec :" + schedulingCineTimer2);
+		console.log("cine3 msec :" + schedulingCineTimer3);
+
+		writeMessage("changeBackground");
+		writeMessage("cine1 msec :" + schedulingCineTimer1);
+		writeMessage("cine2 msec :" + schedulingCineTimer2);
+		writeMessage("cine3 msec :" + schedulingCineTimer3);
+
+		if (receiveManualCommand) {
+			receiveManualCommand = false;
+		} else {
+			changecine();
+		}
+
+		switch(_bgid) {
+			case 'cine1':
+				cineChangeTime = schedulingCineTimer1;
+				break;
+			case 'cine2':
+				cineChangeTime = schedulingCineTimer2;
+				break;
+			case 'cine3':
+				cineChangeTime = schedulingCineTimer3;
+				break;
+		}
+
+		timer = setTimeout(changeBackground, cineChangeTime);
+	}
+
+	function changecine() {
+		switch(_bgid) {
+			case 'cine1':
+				displayCineChange(_bgid, "cine2");
+				break;
+			case 'cine2':
+				displayCineChange(_bgid, "cine3");
+				break;
+			case 'cine3':
+				displayCineChange(_bgid, "cine1");
+				break;
+		}
+	}
+
+	function displayCineChange(current, change) {
+		if (useScheduling) {
+			$("#" + current).hide();
+			$("#" + change).show();
+			mediaplayer.attr("class", change + "-video");
+			_bgid = change;
+
+			console.log("execute changecine [current cine:" + current + ",change cine:" + change + "]");
+			writeMessage("execute changecine [current cine:" + current + ",change cine:" + change + "]");
+		} else {
+			writeMessage("disable scheduling cine!");
+		}
+	}
+
+	function prevcine() {
+		receiveManualCommand = true;
+		switch(_bgid) {
+			case 'cine1':
+				change = "cine3";
+				break;
+			case 'cine2':
+				change = "cine1";
+				break;
+			case 'cine3':
+				change = "cine2";
+				break;
+		}
+		displayCineChange(_bgid, change);
+
+		console.log("change previous cine! [current:" + _bgid + "]");
+		writeMessage("change previous cine! [current:" + _bgid + "]");
+	}
+
+	function nextcine() {
+		receiveManualCommand = true;
+		switch(_bgid) {
+			case 'cine1':
+				change = "cine2";
+				break;
+			case 'cine2':
+				change = "cine3";
+				break;
+			case 'cine3':
+				change = "cine1";
+				break;
+		}
+		displayCineChange(_bgid, change);
+
+		console.log("change next cine! [current:" + _bgid + "]");
+		writeMessage("change next cine! [current:" + _bgid + "]");
+	}
+
+
+	$("window").ready(function() {
+		resetDebugMode();
+		webos.initNetworkInfo();
+		changeBackground();
+		console.log("client page ready!!");
+	});
+
+	webos.setSchedulingCineTimer = function(data) {
+
+		if (schedulingCineTimer1 != data.cine1 || schedulingCineTimer2 != data.cine2 || schedulingCineTimer3 != data.cine3) {
+			schedulingCineTimer1 = data.cine1;
+			schedulingCineTimer2 = data.cine2;
+			schedulingCineTimer3 = data.cine3;
+			clearTimeout(timer);
+			changeBackground();
+			writeMessage("setSchedulingCineTimer reset!!");
+		}
+
+		writeMessage("cine1 msec :" + schedulingCineTimer1);
+		writeMessage("cine2 msec :" + schedulingCineTimer2);
+		writeMessage("cine3 msec :" + schedulingCineTimer3);
+	}; 
+</script>

@@ -1,0 +1,89 @@
+.debuglog {
+	top: 0px;
+    transform: translateX(0px);
+    -o-transform: translateX(0px);
+    -ms-transform: translateX(0px);
+    -moz-transform: translateX(0px);
+    -webkit-transform: translateX(0px);
+
+	height: 100%;
+	width: 100%;
+	color: #fff;
+	background-color: #000;
+	border: 1px solid #efefef;
+	overflow-x: hidden;
+	overflow-y: auto;
+	position: absolute;
+	opacity: 0.8;
+	z-index: 1003;
+}
+
+.clientmainbg {
+	height: 100%;
+	width: 100%;
+	padding: 0px;
+	background-color: #000;
+}
+
+.cine1-bg {
+	height: 100%;
+	width: 100%;
+	padding: 0px;
+	background-image: url('/resources/image_template/sports_template1.jpg');
+	background-repeat: no-repeat;
+}
+
+.cine2-bg {
+	height: 100%;
+	width: 100%;
+	padding: 0px;
+	background-image: url('/resources/image_template/sports_template2.jpg');
+	background-repeat: no-repeat;
+}
+
+.cine3-bg {
+	height: 100%;
+	width: 100%;
+	padding: 0px;
+	background-image: url('/resources/image_template/sports_template3.jpg');
+	background-repeat: no-repeat;
+}
+
+.cine1-video {
+	top: 145px;
+    transform: translateX(709px);
+    -o-transform: translateX(709px);
+    -ms-transform: translateX(709px);
+    -moz-transform: translateX(709px);
+    -webkit-transform: translateX(709px);
+    width:1115px;
+    height:960px;
+	z-index:1001;
+	position: absolute;
+}
+
+.cine2-video {
+	top: 320px;
+    transform: translateX(829px);
+    -o-transform: translateX(829px);
+    -ms-transform: translateX(829px);
+    -moz-transform: translateX(829px);
+    -webkit-transform: translateX(829px);
+    width:900px;
+    height:610px;
+	z-index:1001;
+	position: absolute;
+}
+
+.cine3-video {
+	top: 275px;
+    transform: translateX(79px);
+    -o-transform: translateX(79px);
+    -ms-transform: translateX(79px);
+    -moz-transform: translateX(79px);
+    -webkit-transform: translateX(79px);
+    width:855px;
+    height:645px;
+	z-index:1001;
+	position: absolute;
+}

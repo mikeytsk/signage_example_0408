@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 15.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="레이어_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+	 y="0px" width="310px" height="110px" viewBox="0 0 310 110" enable-background="new 0 0 310 110" xml:space="preserve">
+<g>
+	<rect x="139.32" y="40.651" fill="none" width="168.6" height="60.22"/>
+	<text transform="matrix(1 0 0 1 139.3198 69.541)" fill="white">
+		<tspan x="0" y="0" font-family="'SmartGothicB'" font-size="36">LG </tspan><tspan x="0" y="25.201" font-family="'SmartGothicB'" font-size="21">Signage Manager </tspan>
+	</text>
+	<g>
+		<g>
+			<polygon fill="#B7256E" points="119.349,62.07 119.4,86.564 103.898,57.299 			"/>
+			<polygon fill="#B7256E" points="23.15,17.879 23.15,90.396 81.656,88.477 79.519,43.031 92.787,25.154 			"/>
+			<polygon fill="#E23091" points="79.519,43.031 92.787,24.154 97.375,42.031 			"/>
+			<polygon fill="#A50A66" points="79.519,43.031 97.375,42.031 79.986,58.299 			"/>
+			<polygon fill="#600A41" points="79.986,58.299 103.898,57.299 97.375,42.031 			"/>
+			<polygon fill="#840846" points="79.986,58.299 103.849,73.424 103.849,57.299 			"/>
+			<polygon fill="#840846" points="79.986,87.646 103.849,73.424 103.771,88.338 			"/>
+			<polygon fill="#D82590" points="79.986,58.299 79.986,87.646 103.849,73.424 			"/>
+			<polygon fill="#AD256F" points="97.375,42.031 119.349,27.758 91.736,24.395 			"/>
+			<polygon fill="#AD256F" points="103.849,73.424 119.4,86.564 103.771,88.338 			"/>
+			<polygon fill="#91136A" points="133.125,32.076 150.498,15.201 149.498,32.076 			"/>
+			<polygon fill="#B7256E" points="119.349,53.24 119.349,27.508 134.125,43.211 			"/>
+		</g>
+		<polygon fill="#2D2D2D" points="4.445,102.77 10.335,104.385 119.4,96.447 119.4,86.564 23.203,89.525 23.203,18.008 
+			119.4,27.887 119.759,26.887 119.4,19.008 10.085,3.078 4.08,5.5 		"/>
+		<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="-13.582" y1="6.5776" x2="99.2729" y2="86.0589">
+			<stop  offset="0" style="stop-color:#FFFFFF"/>
+			<stop  offset="1" style="stop-color:#000000"/>
+		</linearGradient>
+		<polygon fill="url(#SVGID_1_)" points="10.392,104.941 119.4,97.447 119.4,86.564 23.56,89.525 23.56,17.008 119.759,26.887 
+			119.759,19.008 10.082,3.121 		"/>
+	</g>
+</g>
+</svg>

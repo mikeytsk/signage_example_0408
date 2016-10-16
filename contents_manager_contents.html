@@ -1,0 +1,172 @@
+<div class="col-lg-12">
+	<table id="contents-table" class="table table-condensed table-striped table-hover size-h4">
+		<thead>
+			<tr>
+				<td class="col-lg-1"><b>No</b></td>
+				<td class="col-lg-7"><b>File Name</b></td>
+				<td class="col-lg-2"><b>Size</b></td>
+				<td class="col-lg-2"><b>Delete</b></td>
+			</tr>
+		</thead>
+		<tbody id="contents-table-tbody">
+			<tr>
+				<td colspan="4" class="text-center">no data</td>
+			</tr>
+		</tbody>
+	</table>
+	<button id="contentsAddBtn" class="btn btn-primary">
+		<span class="glyphicon glyphicon-plus"></span> Add
+	</button>
+</div>
+
+<div class="modal fade" id="content-addmodal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<span class="glyphicon glyphicon-open"></span>
+				Upload Content
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+			</div>
+			<div class="modal-body">
+				<form id="contentfileuploadform" target="_backframe" action="/upload" method="post" enctype="multipart/form-data">
+					<input id="contentsUploadFile" type="file" name="uploadFile" title="Search for a file to add" class="btn btn-primary">
+					<input id="contentDeviceID" name="contentDeviceID" type="hidden"/>
+					<input id="contentType" name="contentType" type="hidden" value="contents"/>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button id="contentsCancelBtn" type="button" class="btn btn-primary" data-dismiss="modal">
+					<span class="glyphicon glyphicon-remove"></span>
+					Cancel
+				</button>
+				<button id="contentsUploadBtn" type="button" class="btn btn-primary">
+					<span class="glyphicon glyphicon-ok"></span>
+					OK
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<iframe id="_backframe" style="height:0px;width:0px;border:0px"></iframe>
+
+<script language="javascript">
+	// contents manager - contents list manage - start
+
+	callMessage("listFiles");
+	parser.listFiles = function(data) {
+		console.log("=====================================");
+		console.log("=listFiles=");
+		console.log(data);
+		console.log("=====================================");
+
+		var filelist = data.result.files;
+		var html = "";
+		try {
+			for (var i = 0; i < filelist.length; i++) {
+				var file = filelist[i];
+				var seq = i + 1;
+
+				$("#contents-table").find("tbody").html("");
+
+				var link = document.createElement("a");
+				$(link).text(seq);
+
+				var tdNo = document.createElement("td");
+				$(tdNo).append(link);
+
+				var tdEnable = document.createElement("td");
+				$(tdEnable).text(file.name);
+
+				var tdInputSource = document.createElement("td");
+				$(tdInputSource).text(formatSizeUnits(file.size));
+
+				var tdWeek = document.createElement("td");
+				$(tdWeek).html("<button onclick='clickContentsDeleteBtn(this)' value='" + file.name + "' type='button' class='btn btn-primary'>Delete</button>");
+
+				var tr = document.createElement("tr");
+				$(tr).append(tdNo);
+				$(tr).append(tdEnable);
+				$(tr).append(tdInputSource);
+				$(tr).append(tdWeek);
+
+				html += "<tr>" + $(tr).html() + "</tr>";
+			}
+		} catch(e) {
+			console.log(e.stack);
+		}
+		
+		$("#contents-table-tbody").html(html);
+	};
+
+	parser.removeFile = function(data){
+		console.log(data);
+		callMessage("listFiles");
+	};
+
+	masterMessage({
+		api : 'getContents',
+	});
+
+	$("#contentsUploadFile").on("click", function() {
+		$("#contentsUploadBtn").toggleClass("disabled");
+	});
+
+	$("#_backframe").load(function() {
+		completeReceiveCB();
+		masterMessage({
+			'api' : 'uploadContents',
+			'selectedDevice' : selectedDevice
+		});
+
+		masterMessage({
+			api : 'getContents'
+		});
+		
+		location.refresh();
+	});
+
+	function clickContentsDeleteBtn(el) {
+		callMessage({api:'removeFile', param:{filename:el.value}});
+		console.log("contentsDeleteBtn Click!");
+	}
+
+
+	$("#contentsCancelBtn").on("click", function() {
+		$("#contentsUploadBtn").toggleClass("disabled");
+	});
+
+	$("#contentsAddBtn").on("click", function() {
+		if ($("#contentsUploadBtn").attr('class').indexOf('disabled') == -1) {
+			$("#contentsUploadBtn").toggleClass("disabled");
+		}
+		$("#content-addmodal").modal('show');
+		$("#content-addmodal").modal({
+			keyboard : false
+		});
+	});
+
+	var contentsUploadBtn = $("#contentsUploadBtn");
+	contentsUploadBtn.on("click", function() {
+		if (selectedDevice != "") {
+			try {
+				$("#contentsUploadBtn").toggleClass("disabled");
+				$("#contentDeviceID").val(selectedDevice);
+				$("#contentfileuploadform").submit();
+				$("#content-addmodal").modal('hide');
+				initProgress(3);
+				completeReceiveCB();
+			} catch(e) {
+				writeMessage(e.stack);
+			}
+		}
+	});
+
+	function refreshContents(data) {
+		return;
+	}
+
+	// contents manager - contents list manage - end
+</script>

@@ -1,0 +1,7 @@
+2015.04
+ fix tile mode
+ add scap 1.2
+2014.06.11
+ port number for web server is 8592
+ hidden key for debug layer is 8592
+ 

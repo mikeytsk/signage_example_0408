@@ -1,0 +1,276 @@
+@font-face {
+  font-family: "스마트고딕 Medium";
+  src: url("../../../resources/font/Roboto-Regular.ttf");
+  font-weight:bold;
+}
+@font-face {
+  font-family: "Droid Sans Fallback";
+  src: url("../../../resources/font/DroidSansFallback.ttf");
+  font-weight:bold;
+}
+@font-face {
+  font-family: "스마트고딕 Bold";
+  src: url("../../../resources/font/Roboto-Bold.ttf");
+  font-weight:bold;
+}
+
+body {
+	padding-top: 50px;
+	font-size: 14px;
+	line-height: 1.4287;
+	color: #767676;
+	background-color: #f3f3f3;
+	margin: 0px;
+	font-family:"스마트고딕 Medium","스마트고딕 Bold","Droid Sans Fallback";
+}
+
+.screenshotInTv{
+	width:371px;
+	padding-top:29px;
+	padding-left:35px;
+}
+
+.lg_icon{
+	height:34px;
+	left:-10px;
+	margin-top:-3px;
+	margin-bottom:-6px;
+	position:relative;
+	display:inline-block
+}
+
+/*
+
+ .sidebar ul.nav.nav-sidebar li a {//
+ color: #677679;
+ }
+ .row .sidebar {
+ padding-right: 15px;
+ padding-left: 15px;
+ width: 50px;
+ }
+
+ .sidebar ul.nav.nav-sidebar {
+ margin: 0px -15px;
+ background: #384042;
+ }
+ */
+
+.page-title {
+	color: #fff;
+}
+
+.sidebar {
+	display: none;
+}
+
+.sidebar-title {
+	padding-left: 18px;
+	vertical-align: top;
+	line-height: 28px;
+}
+
+.btn {
+	margin-top: 5px;
+}
+
+.main {
+	padding-top: 15px;
+}
+
+.main-intro {
+	padding-top: 15px;
+}
+.main-bg {
+	height: 100%;
+	width: 100%;
+	padding: 0px;
+	background: #000;
+	color: #fff;
+	font-weight: 900;
+	font-size: 13pt;
+}
+
+.system-status {
+	padding-left: 73px;
+}
+
+#captureScreenCt {
+	background-image: url("/resources/img/bg_index_tvframe.png");
+	background-repeat: no-repeat;
+	background-size: contain;
+	padding-top: 0px;
+	margin-top: 0px;
+	top: -15px;
+	width: 405px;
+	height: 258px;
+}
+
+@media (min-width: 768px) {
+	.sidebar {
+		width: 50px;
+		position: fixed;
+		top: 30px;
+		bottom: 0;
+		left: 0;
+		z-index: 1000;
+		display: block;
+		padding: 20px 0px;
+		overflow-x: hidden;
+		overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+		background-color: #f5f5f5;
+		border-right: 1px solid #eee;
+	}
+	.navbar-toggle {
+		position: relative;
+		float: right;
+		margin-right: 15px;
+		padding: 9px 10px;
+		margin-top: 8px;
+		margin-bottom: 8px;
+		background-color: transparent;
+		background-image: none;
+		border: 1px solid transparent;
+		border-radius: 4px;
+	}
+	.main {
+		padding-left: 65px;
+	}
+}
+
+@media (max-width: 768px) {
+	.sidebar-collapse {
+		display: none;
+	}
+}
+
+.starter-template {
+	padding: 40px 15px;
+	text-align: center;
+}
+
+.bs-glyphicons .glyphicon {
+	margin-top: 5px;
+	margin-bottom: 10px;
+	font-size: 18px;
+}
+
+.bs-glyphicons a:hover {
+	color: #000;
+}
+.bg-red a {
+	background: #e94b3b;
+	color: white;
+}
+.bg-orange a {
+	background: #f98e33;
+	color: white;
+}
+.bg-yellow a {
+	background: #ffb61c;
+	color: white;
+}
+.bg-green a {
+	background: #23ae89;
+	color: white;
+}
+.bg-cobalt a {
+	background: #2ec1cc;
+	color: white;
+}
+.bg-sky a {
+	background: #449dd5;
+	color: white;
+}
+.bg-blue a {
+	background: #1c7ebb;
+	color: white;
+}
+.bg-purple a {
+	background: #6a55c2;
+	color: white;
+}
+.bg-red {
+	background: #e94b3b;
+	color: white;
+}
+.bg-orange {
+	background: #f98e33;
+	color: white;
+}
+.bg-yellow {
+	background: #ffb61c;
+	color: white;
+}
+.bg-green {
+	background: #23ae89;
+	color: white;
+}
+.bg-cobalt {
+	background: #2ec1cc;
+	color: white;
+}
+.bg-sky {
+	background: #449dd5;
+	color: white;
+}
+.bg-blue {
+	background: #1c7ebb;
+	color: white;
+}
+.bg-purple {
+	background: #6a55c2;
+	color: white;
+}
+
+.progress-bar.animate {
+	width: 0%;
+}
+
+.mini-box {
+	min-height: 270px;
+	padding: 20px;
+}
+
+.mini-box .box-icon {
+	display: block;
+	float: left;
+	margin: 0px 10px 10px 0px;
+	width: 405px;
+	height: 226px;
+	line-height: 65px;
+	vertical-align: middle;
+	font-size: 35px;
+}
+
+.fa > .glyphicon {
+	font-style: normal;
+	font-weight: normal;
+	line-height: 1;
+	padding: 14px;
+}
+
+.bg-success {
+	background-color: #23ae89;
+	color: white;
+}
+
+.size-h2 {
+	font-size: 20px;
+}
+
+.size-h4 {
+	font-size: 18px;
+}
+
+.configuration-title {
+	padding-top: 25px;
+	padding-bottom: 9px;
+	margin-bottom: 20px;
+	border-bottom: 1px solid #eee;
+}
+
+.configuration-row{
+	padding-top:3px;
+	padding-bottom:3px;
+}

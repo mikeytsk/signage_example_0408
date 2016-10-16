@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 15.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="레이어_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+	 y="0px" width="155px" height="109px" viewBox="0 0 155 109" enable-background="new 0 0 155 109" xml:space="preserve">
+<g>
+	<g>
+		<polygon fill="#B7256E" points="120.396,62.105 120.447,86.6 104.945,57.334 		"/>
+		<polygon fill="#B7256E" points="24.197,17.915 24.197,90.432 82.703,88.512 80.566,43.067 93.834,25.189 		"/>
+		<polygon fill="#E23091" points="80.566,43.067 93.834,24.189 98.422,42.067 		"/>
+		<polygon fill="#A50A66" points="80.566,43.067 98.422,42.067 81.033,58.334 		"/>
+		<polygon fill="#600A41" points="81.033,58.334 104.945,57.334 98.422,42.067 		"/>
+		<polygon fill="#840846" points="81.033,58.334 104.896,73.459 104.896,57.334 		"/>
+		<polygon fill="#840846" points="81.033,87.682 104.896,73.459 104.818,88.373 		"/>
+		<polygon fill="#D82590" points="81.033,58.334 81.033,87.682 104.896,73.459 		"/>
+		<polygon fill="#AD256F" points="98.422,42.067 120.396,27.793 92.783,24.429 		"/>
+		<polygon fill="#AD256F" points="104.896,73.459 120.447,86.6 104.818,88.373 		"/>
+		<polygon fill="#91136A" points="134.172,32.111 151.545,15.237 150.545,32.111 		"/>
+		<polygon fill="#B7256E" points="120.396,53.275 120.396,27.542 135.172,43.247 		"/>
+	</g>
+	<polygon fill="#2D2D2D" points="5.492,103.805 11.383,105.42 120.447,96.482 120.447,86.6 24.25,89.561 24.25,18.043 
+		120.447,27.922 120.807,26.922 120.447,19.043 11.133,3.113 5.127,5.534 	"/>
+	<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="-12.7695" y1="6.9478" x2="100.0846" y2="86.4285">
+		<stop  offset="0" style="stop-color:#FFFFFF"/>
+		<stop  offset="1" style="stop-color:#000000"/>
+	</linearGradient>
+	<polygon fill="url(#SVGID_1_)" points="11.439,105.977 120.447,97.482 120.447,86.6 24.607,89.561 24.607,17.043 120.807,26.922 
+		120.807,19.043 11.129,3.157 	"/>
+</g>
+</svg>

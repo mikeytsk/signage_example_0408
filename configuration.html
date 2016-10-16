@@ -1,0 +1,1629 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>LG SIGNAGE</title>
+	</head>
+
+	<!-- Bootstrap core CSS -->
+	<link rel="stylesheet" href="./bootstrap/3.1.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="./bootstrap/3.1.1/css/bootstrap-theme.min.css">
+	<!-- Custom styles for this template -->
+	<link rel="stylesheet" href="./bootstrap/3.1.1/layout_custom_css/starter-template.css">
+	<link rel="stylesheet" href="./dragdealer/dragdealer.css">
+	<link rel="stylesheet" href="jquery-ui/1.10.4/css/ui-lightness/jquery-ui-1.10.4.custom.min.css"/>
+
+	<script src="./jquery/1.11.0/jquery-1.11.0.min.js"></script>
+	<script src="./bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+	<script src="./dragdealer/dragdealer.js"></script>
+	<script src="jquery-ui/1.10.4/js/jquery-ui-1.10.4.custom.min.js"></script>
+
+	<!-- Just for debugging purposes. Don't actually copy this line! -->
+	<!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+	<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+
+	<!-- Socket.IO -->
+	<script src="/socket.io/socket.io.js"></script>
+	<body>
+
+		<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+			<div>
+				<div class="navbar-header">
+				<a class="navbar-brand" href="/" style="padding:0px 5px"> 
+					<span class="page-title">
+					<img src="resources/img/svg/bg_logo_recommendedusage_2.svg" height="47">
+					</span> 
+				</a>
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+				</div>
+			</div>
+			<div class="collapse navbar-collapse" id="bs-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li>
+						<a id="showLogBtn" href="#">Application Log</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="container-fluid content" style="padding:0px">
+
+			<div class="row-fluid">
+
+				<!-- loading modal start -->
+				<div id="progress-modal" class="modal js-loading-bar" style="top:300px">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-body">
+								Update Device Infomation
+								<div class="progress progress-striped progress-popup active">
+									<div id="loading" class="progress-bar progress-bar-danger">
+										Loading...
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- loading modal end -->
+
+				<!-- msgLog modal start -->
+				<div id="msgLog-modal" class="modal fade">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h4>Application Log</h4>
+							</div>
+							<div id="msgLog" class="modal-body" style="height:250px;overflow-x:hidden;overflow-y:auto"></div>
+							<div class="modal-footer">
+								<button id="playBtn" class="btn btn-primary">
+									<i class="glyphicon glyphicon-tag"></i>
+									Play
+								</button>
+								<button id="captureScreenBtn" class="btn btn-primary">
+									<i class="glyphicon glyphicon-tag"></i>
+									Capture
+								</button>
+								<button id="devicesBtn" class="btn btn-primary">
+									<i class="glyphicon glyphicon-tag"></i>
+									Devices
+								</button>
+								<button id="initNetworkInfoBtn" class="btn btn-primary">
+									<i class="glyphicon glyphicon-tag"></i>
+									Init Network Info
+								</button>
+								<button id="platformInfoBtn" class="btn btn-primary">
+									<i class="glyphicon glyphicon-tag"></i>
+									Platform
+								</button>
+								<button id="pictureModeBtn" class="btn btn-primary">
+									<i class="glyphicon glyphicon-tag"></i>
+									Picture
+								</button>
+								<button id="currentTimeBtn" class="btn btn-primary">
+									<i class="glyphicon glyphicon-tag"></i>
+									Time
+								</button>
+								<button id="networkMacInfoBtn" class="btn btn-primary">
+									<i class="glyphicon glyphicon-tag"></i>
+									Mac
+								</button>
+								<button id="networkInfoBtn" class="btn btn-primary">
+									<i class="glyphicon glyphicon-tag"></i>
+									Network
+								</button>
+								<button id="toggleDebugModeBtn" class="btn btn-primary">
+									<i class="glyphicon glyphicon-ok"></i>
+									Debug
+								</button>
+								<button id="msgLogCleanBtn" class="btn btn-primary">
+									<i class="glyphicon glyphicon-trash"></i>
+									Clean
+								</button>
+								</br></br>
+								<button id="refreshBtn" class="btn btn-danger">
+									<i class="glyphicon glyphicon-refresh"></i>
+									Refresh
+								</button>
+								<button id="rebootBtn" class="btn btn-danger">
+									<i class="glyphicon glyphicon-off"></i>
+									Reboot
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- msgLog modal end -->
+
+				<div class="sidebar col-md-2 col-sm-1">
+					<ul class="nav nav-sidebar bs-glyphicons" style="overflow:hidden;width:auto;height:100%;">
+						<li class="bg-red">
+							<a href="#page=information"> 
+								<img src="resources/img/svg/bg_information.svg" class="lg_icon"> </a>
+						</li>
+						<li class="bg-orange">
+							<a href="#page=configuration"> 
+								<img src="resources/img/svg/bg_configuration.svg" class="lg_icon"></a>
+						</li>
+						<li class="bg-green">
+							<a href="#page=contents_manager"> 
+								<img src="resources/img/svg/bg_contentsmanager.svg" class="lg_icon"></a>
+						</li>
+					</ul>
+				</div>
+
+				<div class="sidebar-collapse collapse">
+					<ul class="nav nav-sidebar bs-glyphicons" style="overflow:hidden;width:auto;height:100%;">
+						<li class="bg-red active">
+							<a href="#page=information"> <img src="resources/img/svg/bg_information.svg" class="lg_icon"> <span class="sidebar-title"> Information</span> </a>
+						</li>
+						<li class="bg-orange">
+							<a href="#page=configuration"> <img src="resources/img/svg/bg_configuration.svg" class="lg_icon"> <span class="sidebar-title"> Configuration</span> </a>
+						</li>
+						<li class="bg-green">
+							<a href="#page=contents_manager"> <img src="resources/img/svg/bg_contentsmanager.svg" class="lg_icon"> <span class="sidebar-title"> Contents Manager</span> </a>
+						</li>
+					</ul>
+				</div>
+
+
+
+
+				<!-- main contents-->
+				<div class="col-md-12 col-sm-12 main">
+
+					<div class="well well-sm">
+						<h3>
+							<img src="resources/img/svg/bg_configuration.svg">
+							Configuration <span class="text pull-right">
+							<div class="btn-group" style="top:-10px">
+								<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+									<span id="selected_device_id">Device</span><span class="caret"></span>
+								</button>
+								<ul id="devicesCombo" class="dropdown-menu" role="menu"></ul>
+							</div> </span></h3>
+					</div>
+
+					<!-- tabs start -->
+					<!-- tabs menu start-->
+					<!-- !!주의: 탭 텍스트는 공백이 없어야 함 -->
+					<ul class="nav nav-tabs" id="configtabs">
+						<li>
+							<a href="#video" data-toggle="tab"><img src="resources/img/svg/bg_configuration_video.svg" class="lg_icon">Video</a>
+						</li>
+						<li>
+							<a href="#audio" data-toggle="tab" value="audio"><img src="resources/img/svg/bg_configuration_audio.svg" class="lg_icon">Audio</a>
+						</li>
+						<li>
+							<a href="#power" data-toggle="tab" value="power"><img src="resources/img/svg/bg_configuration_power.svg" class="lg_icon">Power</a>
+						</li>
+						<li>
+							<a href="#input" data-toggle="tab" value="input"><img src="resources/img/svg/bg_configuration_input.svg" class="lg_icon">Input</a>
+						</li>
+						<li>
+							<a href="#timer" data-toggle="tab" value="timer"><img src="resources/img/svg/bg_configuration_timer.svg" class="lg_icon">Timer</a>
+						</li>
+						<li>
+							<a href="#advancedsetting" data-toggle="tab" value="advancedsetting"><img src="resources/img/svg/bg_configuration_advancedsetting.svg" class="lg_icon">Advanced Setting</a>
+						</li>
+					</ul>
+					<!-- tabs menu end-->
+
+					<!-- tabs content start-->
+					<div class="tab-content">
+
+						<!-- tab video configure start -->
+						<div class="tab-pane active fade in" id="video">
+
+<div class="col-lg-12" style="background-color:#fff;border-bottom:1px solid #ddd;border-right:1px solid #ddd;border-left:1px solid #ddd;border-radius:0 0 4px 4px; margin-top:0px;min-height:300px;padding-bottom:25px">
+
+	<!-- Picture start -->
+	<div class="col-lg-12">
+
+		<div class="col-lg-12 configuration-title">
+			<p class="size-h2">
+				<img src="resources/img/svg/bg_index_titleicon2.svg"> Picture
+			</p>
+		</div>
+
+		<div class="col-lg-12">
+			<div class="row configuration-row">
+				<div class="col-lg-2 size-h4">
+					Mode
+				</div>
+				<div class="col-lg-8">
+					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+						<span id="pictureMode-combo">None</span>
+						<span class="caret"></span>
+					</button>
+					<ul id="modeCombo" class="dropdown-menu" role="menu">
+						<li><a id="pictureMode-combo-vivid">VIVID</a></li>
+						<li><a id="pictureMode-combo-standard">STANDARD</a></li>
+						<li><a id="pictureMode-combo-aps">APS</a></li>
+						<li><a id="pictureMode-combo-cinema">CINEMA</a></li>
+						<li><a id="pictureMode-combo-sports">SPORTS</a></li>
+						<li><a id="pictureMode-combo-game">GAME</a></li>
+						<li><a id="pictureMode-combo-expert1">EXPERT1</a></li>
+						<li><a id="pictureMode-combo-expert2">EXPERT2</a></li>
+					</ul>
+					<button id="btnUpdatePictureMode" class="btn btn-primary">Update</button>
+				</div>
+			</div>
+		</div>
+
+			<div id="property-backlight" class="col-lg-4">
+				<div class="col-lg-6 size-h4">
+					Back Light
+				</div>
+				<div class="col-lg-6">
+					<input id="pictureMode-property-backlight" type="number" min="0" max="100" value="0" size="2"/>
+				</div>
+			</div>
+
+			<div id="property-contrast" class="col-lg-4">
+				<div class="col-lg-6 size-h4">
+					Contrast
+				</div>
+				<div class="col-lg-6">
+					<input id="pictureMode-property-contrast" type="number" min="0" max="100" value="0" size="2"/>
+				</div>
+			</div>
+
+			<div id="property-brightness" class="col-lg-4">
+				<div class="col-lg-6 size-h4">
+					Brightness
+				</div>
+				<div class="col-lg-6">
+					<input id="pictureMode-property-brightness" type="number" min="0" max="100" value="0" size="2"/>
+				</div>
+			</div>
+			
+			
+			<div id="property-sharpness" class="col-lg-4">
+				<div class="col-lg-6 size-h4">
+					Sharpness
+				</div>
+				<div class="col-lg-6">
+					<input id="pictureMode-property-sharpness" type="number" min="0" max="100" value="0" size="2"/>
+				</div>
+			</div>
+
+			<div id="property-hsharpness" class="col-lg-4">
+				<div class="col-lg-6 size-h4">
+					hSharpness
+				</div>
+				<div class="col-lg-6">
+					<input id="pictureMode-property-hsharpness" type="number" min="0" max="100" value="0" size="2"/>
+				</div>
+			</div>
+
+			<div id="property-vsharpness" class="col-lg-4">
+				<div class="col-lg-6 size-h4">
+					vSharpness
+				</div>
+				<div class="col-lg-6">
+					<input id="pictureMode-property-vsharpness" type="number" min="0" max="100" value="0" size="2"/>
+				</div>
+			</div>
+
+			<div id="property-color" class="col-lg-4">
+				<div class="col-lg-6 size-h4">
+					Color
+				</div>
+				<div class="col-lg-6">
+					<input id="pictureMode-property-color" type="number" min="0" max="100" value="0" size="2"/>
+				</div>
+			</div>
+
+			<div id="property-colortemperature" class="col-lg-4">
+				<div class="col-lg-6 size-h4">
+					Color Temperature
+				</div>
+				<div class="col-lg-6">
+					<input id="pictureMode-property-colortemperature" type="number" min="0" max="100" value="0" size="2"/>
+				</div>
+			</div>
+
+			<div id="property-dynamiccontrast" class="col-lg-4">
+				<div class="col-lg-6 size-h4">
+					Dynamic Contrast
+				</div>
+				<div class="col-lg-6">
+					<div class="btn-group">
+						<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+							<span id="pictureMode-property-dynamiccontrast">off</span>
+							<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu" role="menu">
+							<li>
+								<a id="pictureMode-property-dynamiccontrast-value1">off</a>
+							</li>
+							<li>
+								<a id="pictureMode-property-dynamiccontrast-value2">low</a>
+							</li>
+							<li>
+								<a id="pictureMode-property-dynamiccontrast-value3">medium</a>
+							</li>
+							<li>
+								<a id="pictureMode-property-dynamiccontrast-value4">high</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			
+			
+			<div id="property-superresolution" class="col-lg-4">
+				<div class="col-lg-6 size-h4">
+					Super Resolution
+				</div>
+				<div class="col-lg-6">
+					<div class="btn-group">
+						<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+							<span id="pictureMode-property-superresolution">off</span>
+							<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu" role="menu">
+							<li>
+								<a id="pictureMode-property-superresolution-value1">off</a>
+							</li>
+							<li>
+								<a id="pictureMode-property-superresolution-value2">low</a>
+							</li>
+							<li>
+								<a id="pictureMode-property-superresolution-value3">medium</a>
+							</li>
+							<li>
+								<a id="pictureMode-property-superresolution-value4">high</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<div id="property-colorgamut" class="col-lg-4">
+				<div class="col-lg-6 size-h4">
+					Color Gamut
+				</div>
+				<div class="col-lg-6">
+					<div class="btn-group">
+						<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+							<span id="pictureMode-property-colorgamut">wide</span>
+							<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu" role="menu">
+							<li>
+								<a id="pictureMode-property-colorgamut-value1">wide</a>
+							</li>
+							<li>
+								<a id="pictureMode-property-colorgamut-value2">standard</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<div id="property-dynamiccolor" class="col-lg-4">
+				<div class="col-lg-6 size-h4">
+					Dynamic Color
+				</div>
+				<div class="col-lg-6">
+					<div class="btn-group">
+						<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+							<span id="pictureMode-property-dynamiccolor">off</span>
+							<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu" role="menu">
+							<li>
+								<a id="pictureMode-property-dynamiccolor-value1">off</a>
+							</li>
+							<li>
+								<a id="pictureMode-property-dynamiccolor-value2">low</a>
+							</li>
+							<li>
+								<a id="pictureMode-property-dynamiccolor-value3">medium</a>
+							</li>
+							<li>
+								<a id="pictureMode-property-dynamiccolor-value4">high</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			
+			
+			<div id="property-noisereduction" class="col-lg-4">
+				<div class="col-lg-6 size-h4">
+					Noise Reduction
+				</div>
+				<div class="col-lg-6">
+					<div class="btn-group">
+						<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+							<span id="pictureMode-property-noisereduction">auto</span>
+							<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu" role="menu">
+							<li>
+								<a id="pictureMode-property-noisereduction-value1">auto</a>
+							</li>
+							<li>
+								<a id="pictureMode-property-noisereduction-value2">off</a>
+							</li>
+							<li>
+								<a id="pictureMode-property-noisereduction-value3">low</a>
+							</li>
+							<li>
+								<a id="pictureMode-property-noisereduction-value4">medium</a>
+							</li>
+							<li>
+								<a id="pictureMode-property-noisereduction-value5">high</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<div id="property-mpegnoisereduction" class="col-lg-4">
+				<div class="col-lg-6 size-h4">
+					MPEG Noise Reduction
+				</div>
+				<div class="col-lg-6">
+					<div class="btn-group">
+						<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+							<span id="pictureMode-property-mpegnoisereduction">auto</span>
+							<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu" role="menu">
+							<li>
+								<a id="pictureMode-property-mpegnoisereduction-value1">auto</a>
+							</li>
+							<li>
+								<a id="pictureMode-property-mpegnoisereduction-value2">off</a>
+							</li>
+							<li>
+								<a id="pictureMode-property-mpegnoisereduction-value3">low</a>
+							</li>
+							<li>
+								<a id="pictureMode-property-mpegnoisereduction-value4">medium</a>
+							</li>
+							<li>
+								<a id="pictureMode-property-mpegnoisereduction-value5">high</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+			<div id="property-blacklevel" class="col-lg-4">
+				<div class="col-lg-6 size-h4">
+					Black Level
+				</div>
+				<div class="col-lg-6">
+					<div class="btn-group">
+						<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+							<span id="pictureMode-property-blacklevel">low</span>
+							<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu" role="menu">
+							<li>
+								<a id="pictureMode-property-blacklevel-value1">low</a>
+							</li>
+							<li>
+								<a id="pictureMode-property-blacklevel-value2">high</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			
+			
+			<div id="property-gamma" class="col-lg-4">
+				<div class="col-lg-6 size-h4">
+					Gamma
+				</div>
+				<div class="col-lg-6">
+					<div class="btn-group">
+						<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+							<span id="pictureMode-property-gamma">low</span>
+							<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu" role="menu">
+							<li>
+								<a id="pictureMode-property-gamma-value1">low</a>
+							</li>
+							<li>
+								<a id="pictureMode-property-gamma-value2">medium</a>
+							</li>
+							<li>
+								<a id="pictureMode-property-gamma-value3">high</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+
+	</div>
+	<!-- Picture end -->
+
+	<!-- TileMode start -->
+	<div class="col-lg-12">
+		<div class="col-lg-12 configuration-title">
+			<p class="size-h2">
+				<img src="resources/img/svg/bg_index_titleicon2.svg"> Tile Mode
+			</p>
+		</div>
+		<div class="col-lg-4">
+			<div class="row configuration-row">
+				<div class="col-lg-4 size-h4">
+					TileID
+				</div>
+				<div class="col-lg-8">
+					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+						<span id="tileid-combo">1</span>
+						<span class="caret"></span>
+					</button>
+					<ul id="tileidCombo" class="dropdown-menu" role="menu">
+						<li>
+							<a id="tileid_combo_value_1">1</a>
+						</li>
+						<li>
+							<a id="tileid_combo_value_2">2</a>
+						</li>
+						<li>
+							<a id="tileid_combo_value_3">3</a>
+						</li>
+						<li>
+							<a id="tileid_combo_value_4">4</a>
+						</li>
+						<li>
+							<a id="tileid_combo_value_5">5</a>
+						</li>
+						<li>
+							<a id="tileid_combo_value_6">6</a>
+						</li>
+						<li>
+							<a id="tileid_combo_value_7">7</a>
+						</li>
+						<li>
+							<a id="tileid_combo_value_8">8</a>
+						</li>
+						<li>
+							<a id="tileid_combo_value_9">9</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="row configuration-row">
+				<div class="col-lg-4 size-h4">
+					On/Off
+				</div>
+				<div class="col-lg-8">
+					<div id="enabled-toggle" class="btn-group onoff-toggle">
+						<button class="btn btn-default" value="On">
+							On
+						</button>
+						<button class="btn btn-primary active" value="Off">
+							Off
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-4">
+			<div class="row configuration-row">
+				<div class="col-lg-4 size-h4">
+					Row
+				</div>
+				<div class="col-lg-8">
+					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+						<span id="row-combo">1</span>
+						<span class="caret"></span>
+					</button>
+					<ul id="rowCombo" class="dropdown-menu" role="menu">
+						<li>
+							<a id="row_combo_value_1">1</a>
+						</li>
+						<li>
+							<a id="row_combo_value_2">2</a>
+						</li>
+						<li>
+							<a id="row_combo_value_3">3</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="row configuration-row">
+				<div class="col-lg-4 size-h4">
+					Natural Mode
+				</div>
+				<div class="col-lg-8">
+					<div id="naturalMode-toggle" class="btn-group onoff-toggle">
+						<button class="btn btn-default" value="On">
+							On
+						</button>
+						<button class="btn btn-primary active" value="Off">
+							Off
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-4">
+			<div class="row configuration-row">
+				<div class="col-lg-4 size-h4">
+					Column
+				</div>
+				<div class="col-lg-8">
+					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+						<span id="column-combo">1</span>
+						<span class="caret"></span>
+					</button>
+					<ul id="columnCombo" class="dropdown-menu" role="menu">
+						<li>
+							<a id="column_combo_value_1">1</a>
+						</li>
+						<li>
+							<a id="column_combo_value_2">2</a>
+						</li>
+						<li>
+							<a id="column_combo_value_3">3</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- TileMode end -->
+
+	<!-- VideoClipping start -->
+	<!--
+	<div class="col-lg-12">
+		<div class="col-lg-12 configuration-title">
+			<p class="size-h2">
+				<img src="resources/img/svg/bg_index_titleicon2.svg">
+				Video Clipping
+			</p>
+		</div>
+		<div class="col-lg-4">
+			<div class="row configuration-row">
+				<div class="col-lg-4 size-h4">
+					X
+				</div>
+				<div class="col-lg-8">
+					<input type="number" id="video_x">
+				</div>
+			</div>
+			<div class="row configuration-row">
+				<div class="col-lg-4 size-h4">
+					Y
+				</div>
+				<div class="col-lg-8">
+					<input type="number" id="video_y">
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-4">
+			<div class="row configuration-row">
+				<div class="col-lg-4 size-h4">
+					Width
+				</div>
+				<div class="col-lg-8">
+					<input type="number" id="video_width">
+				</div>
+			</div>
+			<div class="row configuration-row">
+				<div class="col-lg-4 size-h4">
+					Height
+				</div>
+				<div class="col-lg-8">
+					<input type="number" id="video_height">
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-4">
+			<div class="row configuration-row">
+				<div class="col-lg-4 size-h4">
+					Update
+				</div>
+				<div class="col-lg-8">
+					<button id="videoclippingBtn" class="btn btn-primary">
+						<i class="glyphicon glyphicon-ok"></i>
+						OK
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	-->
+	<!-- VideoClipping end -->
+
+</div>
+
+<!-- Picture Info -->
+<input type="hidden" id="backlight-slider-value">
+<input type="hidden" id="contrast-slider-value">
+<input type="hidden" id="brightness-slider-value">
+<input type="hidden" id="color-slider-value">
+<input type="hidden" id="tint-slider-value">
+
+<!-- Tile Info -->
+<input type="hidden" id="enabled-toggle-value">
+<input type="hidden" id="naturalMode-toggle-value">
+<input type="hidden" id="tileid-combo-value">
+<input type="hidden" id="row-combo-value">
+<input type="hidden" id="column-combo-value">
+							
+							
+						</div>
+						<!-- tab video configure end -->
+
+						<!-- tab audio configure start -->
+						<div class="tab-pane fade" id="audio">
+							
+<div class="col-lg-12" style="background-color:#fff;border-bottom:1px solid #ddd;border-right:1px solid #ddd;border-left:1px solid #ddd;border-radius:0 0 4px 4px; margin-top:0px;min-height:300px;padding-bottom:25px">
+
+	<div class="col-lg-12">
+		<div class="col-lg-12 configuration-title">
+			<p class="size-h2">
+				<img src="resources/img/svg/bg_index_titleicon2.svg"> Volumn
+			</p>
+		</div>
+		<div class="col-lg-4">
+			<div class="row configuration-row">
+				<div class="col-lg-4 size-h4">
+					Level
+				</div>
+				<div class="col-lg-8" id="level-slider"></div>
+			</div>
+		</div>
+		<div class="col-lg-4">
+			<div class="row configuration-row">
+				<div class="col-lg-4 size-h4">
+					Mode
+				</div>
+				<div class="col-lg-8">
+					<div  id="mute-toggle" class="btn-group onoff-toggle">
+						<button class="btn btn-default" value="On">
+							On
+						</button>
+						<button class="btn btn-primary active" value="Off">
+							Off
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-lg-12">
+
+		<div class="col-lg-12 configuration-title">
+			<p class="size-h2">
+				<img src="resources/img/svg/bg_index_titleicon2.svg"> Digital Audio Input
+			</p>
+		</div>
+
+		<div class="col-lg-4">
+
+			<div class="row configuration-row">
+				<div class="col-lg-4 size-h4">
+					Input DP
+				</div>
+				<div class="col-lg-8">
+					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+						<span id="inputdp-combo">None</span>
+						<span class="caret"></span>
+					</button>
+					<ul id="inputdpCombo" class="dropdown-menu" role="menu">
+						<li>
+							<a id="inputdp_combo_value_1">HDMI_DP</a>
+						</li>
+						<li>
+							<a id="inputdp_combo_value_2">AUDIO_IN</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="row configuration-row">
+				<div class="col-lg-4 size-h4">
+					Input HDMI1
+				</div>
+				<div class="col-lg-8">
+					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+						<span id="inputhdmi1-combo">None</span>
+						<span class="caret"></span>
+					</button>
+					<ul id="inputhdmi1Combo" class="dropdown-menu" role="menu">
+						<li>
+							<a id="inputhdmi1_combo_value_1">HDMI_DP</a>
+						</li>
+						<li>
+							<a id="inputhdmi1_combo_value_2">AUDIO_IN</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+			
+			<div class="row configuration-row">
+				<div class="col-lg-4 size-h4">
+					Input HDMI2
+				</div>
+				<div class="col-lg-8">
+					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+						<span id="inputhdmi2-combo">None</span>
+						<span class="caret"></span>
+					</button>
+					<ul id="inputhdmi2Combo" class="dropdown-menu" role="menu">
+						<li>
+							<a id="inputhdmi2_combo_value_1">HDMI_DP</a>
+						</li>
+						<li>
+							<a id="inputhdmi2_combo_value_2">AUDIO_IN</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+		</div>
+
+		<div class="col-lg-4">
+			<div class="row configuration-row">
+				<div class="col-lg-4 size-h4">
+					External Speaker
+				</div>
+				<div class="col-lg-8">
+					<div  id="externalspeaker-toggle" class="btn-group onoff-toggle">
+						<button class="btn btn-default" value="On">
+							On
+						</button>
+						<button class="btn btn-primary active" value="Off">
+							Off
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<input type="hidden" id="level-slider-value">
+	<input type="hidden" id="mute-toggle-value">
+	<input type="hidden" id="externalspeaker-toggle-value">
+	<input type="hidden" id="inputdp-combo-value">
+	<input type="hidden" id="inputhdmi1-combo-value">
+	<input type="hidden" id="inputhdmi2-combo-value">
+	
+</div>
+							
+						</div>
+						<!-- tab audio configure end -->
+
+						<!-- tab power configure start -->
+						<div class="tab-pane fade" id="power">
+
+<div class="col-lg-12" style="background-color:#fff;border-bottom:1px solid #ddd;border-right:1px solid #ddd;border-left:1px solid #ddd;border-radius:0 0 4px 4px; margin-top:0px;min-height:300px;padding-bottom:25px">
+
+	<div class="col-lg-12 col-sm-12">
+		<div class="col-lg-12 configuration-title">
+			<p class="size-h2">
+				<img src="resources/img/svg/bg_index_titleicon2.svg"> Power
+			</p>
+		</div>
+
+		<div class="col-lg-4">
+			<div class="row configuration-row">
+				<div class="col-lg-12">
+					<button id="powerrebootBtn" class="btn btn-primary">
+						<i class="glyphicon glyphicon-repeat"></i>
+						Reboot
+					</button>
+					<button id="powershutdownBtn" class="btn btn-primary">
+						<i class="glyphicon glyphicon-off"></i>
+						Shutdown
+					</button>
+					<button id="restartApplicationBtn" class="btn btn-primary">
+						<i class="glyphicon glyphicon-refresh"></i>
+						Restart
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-lg-4">
+			<div class="row configuration-row">
+				<div class="col-lg-4 size-h4">
+					Display
+				</div>
+				<div class="col-lg-8">
+					<div id="display-toggle" class="btn-group onoff-toggle">
+						<button class="btn btn-default" value="On">
+							On
+						</button>
+						<button class="btn btn-primary active" value="Off">
+							Off
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-lg-4">
+			<div class="row configuration-row">
+				<div class="col-lg-4 size-h4">
+					WakeOnLan
+				</div>
+				<div class="col-lg-8">
+					<div id="wakeonlan-toggle" class="btn-group onoff-toggle">
+						<button class="btn btn-default" value="On">
+							On
+						</button>
+						<button class="btn btn-primary active" value="Off">
+							Off
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+	<input type="hidden" id="display-toggle-value">
+	<input type="hidden" id="wakeonlan-toggle-value">
+
+</div>
+
+						</div>
+						<!-- tab power configure end -->
+
+						<!-- tab input configure start -->
+						<div class="tab-pane fade" id="input">
+<div class="col-lg-12" style="background-color:#fff;border-bottom:1px solid #ddd;border-right:1px solid #ddd;border-left:1px solid #ddd;border-radius:0 0 4px 4px; margin-top:0px;min-height:300px;padding-bottom:25px">
+
+     
+	<div class="col-lg-12">
+		<div class="col-lg-12 configuration-title">
+			<p class="size-h2">
+				<!-- <img src="resources/img/svg/bg_index_titleicon2.svg"> External Input -->
+			</p>
+		</div>
+		<div class="col-lg-4">
+			<div class="row configuration-row">
+				<div class="col-lg-4 size-h4">
+					Input
+				</div>
+				<div class="col-lg-8">
+					<!--
+					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+						<span id="input-combo">None</span>
+						<span class="caret"></span>
+					</button>
+					<ul id="inputCombo" class="dropdown-menu" role="menu">
+					</ul>
+					--->
+				</div>
+			</div>
+		</div>
+		
+
+		<div class="col-lg-12 configuration-title">
+			<p class="size-h2">
+				<img src="resources/img/svg/bg_index_titleicon2.svg"> Status Information
+			</p>
+		</div>
+		<div class="col-lg-4">
+			<div class="row configuration-row">
+				<div class="col-lg-4 size-h4">
+					Input Source
+				</div>
+				<div class="col-lg-8" id="currentInputSource"><b>Check!</b></div>
+			</div>
+		</div>
+		<div class="col-lg-4">
+			<div class="row configuration-row">
+				<div class="col-lg-4 size-h4">
+					Input Status
+				</div>
+				<div class="col-lg-8" id="currentInputSourceStatus"><b>Check!</b></div>
+			</div>
+		</div>
+
+		<div class="col-lg-12 configuration-title">
+			<p class="size-h2">
+				<img src="resources/img/svg/bg_index_titleicon2.svg"> Failover Mode
+			</p>
+		</div>
+		<div class="col-lg-4">
+			<div class="row configuration-row">
+				<div class="col-lg-4 size-h4">
+					Mode
+				</div>
+				<div class="col-lg-8">
+					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+						<span id="failovermode-combo">None</span>
+						<span class="caret"></span>
+					</button>
+					<ul id="failovermodeCombo" class="dropdown-menu" role="menu">
+						<li>
+							<a id="failovermode-combo-value-1">off</a>
+						</li>
+						<li>
+							<a id="failovermode-combo-value-2">manual</a>
+						</li>
+						<li>
+							<a id="failovermode-combo-value-3">auto</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-4">
+			<div class="row configuration-row">
+				<div class="col-lg-4 size-h4">
+					Priority
+				</div>
+				<div class="col-lg-4">
+					HDMI1
+				</div>
+				<div class="col-lg-offset-4">
+					<input id="failoverpriorit-hdmi1" type="number" maxlength="1" size="1" min="1" max="5" value="2">
+				</div>
+				<div class="col-lg-4 col-lg-offset-4 ">
+					HDMI2
+				</div>
+				<div class="col-lg-offset-8">
+					<input id="failoverpriorit-hdmi2" type="number" maxlength="1" size="1" min="1" max="5" value="3">
+				</div>
+				<div class="col-lg-4 col-lg-offset-4 ">
+					DVI
+				</div>
+				<div class="col-lg-offset-8">
+					<input id="failoverpriorit-dvi" type="number" maxlength="1" size="1" min="1" max="5" value="4">
+				</div>
+				<div class="col-lg-4 col-lg-offset-4 ">
+					DP
+				</div>
+				<div class="col-lg-offset-8">
+					<input id="failoverpriorit-dp" type="number" maxlength="1" size="1" min="1" max="5" value="5">
+				</div>
+				<div class="col-lg-4 col-lg-offset-4">
+					InternalMemory
+				</div>
+				<div class="col-lg-offset-8">
+					<input id="failoverpriorit-internalmemory" type="number" maxlength="1" size="1" min="1" max="5" value="1">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+						</div>
+						<!-- tab input configure end -->
+
+						<!-- tab timer configure start -->
+						<div class="tab-pane fade" id="timer">
+							
+<div class="col-lg-12" style="background-color:#fff;border-bottom:1px solid #ddd;border-right:1px solid #ddd;border-left:1px solid #ddd;border-radius:0 0 4px 4px; margin-top:0px;min-height:300px;padding-bottom:25px">
+
+	<div class="col-lg-12 configuration-title">
+		<p class="size-h2" >
+			<img src="resources/img/svg/bg_index_titleicon2.svg"> On Timer
+			<button id="ontimerUpdateBtn" class="btn btn-sm btn-primary">
+				<i class="glyphicon glyphicon-repeat"></i>
+				Reload
+			</button>
+		</p>
+	</div>
+
+	<div class="col-lg-12">
+		<div class="col-lg-8">
+			<table id="ontimer-table" class="table table-condensed table-striped table-hover size-h4">
+				<thead>
+					<tr>
+						<td class="col-lg-1"><b>No</b></td>
+						<!-- <td class="col-lg-1"><b>Enabled</b></td> -->
+						<td class="col-lg-2"><b>Input Source</b></td>
+						<td class="col-lg-1"><b>Time</b></td>
+						<td class="col-lg-2"><b>Week</b></td>
+						<td class="col-lg-1"><b>Delete</b></td>
+					</tr>
+				</thead>
+				<tbody id="ontimer-table-tbody">
+					<tr>
+						<td colspan="5" class="text-center">no data</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="col-lg-4">
+		    <!--
+			<div class="col-lg-4 size-h4">
+				No
+			</div>
+			<div class="col-lg-8">
+				<button id="ontimer-no-btn" class="btn btn-default disabled">
+					-
+				</button>
+			</div>
+			<div class="col-lg-4 size-h4">
+				Enabled
+			</div>
+			<div class="col-lg-8">
+				<div id="ontimer-enable-toggle" class="btn-group onoff-toggle">
+					<button class="btn btn-default" value="On">On</button>
+					<button class="btn btn-primary active" value="Off">Off</button>
+				</div>
+			</div>
+			-->
+			<div class="col-lg-4 size-h4">
+				Input Source
+			</div>
+			<div class="col-lg-8">
+				<button id="ontimer-inputsource-combo" type="button" class="btn btn-primary btn-group-sm dropdown-toggle" data-toggle="dropdown">
+					<span id="ontimer-inputsource-combo-value">hdmi1</span>
+					<span class="caret"></span>
+				</button>
+				<ul id="ontimerInputCombo" class="dropdown-menu" role="menu">
+					<li>
+						<a  id="ontimer_inputsource_combo_value_1">dvi</a>
+					</li>
+					<li>
+						<a  id="ontimer_inputsource_combo_value_2">hdmi1</a>
+					</li>
+					<li>
+						<a  id="ontimer_inputsource_combo_value_3">hdmi2</a>
+					</li>
+					<li>
+						<a  id="ontimer_inputsource_combo_value_4">displayport</a>
+					</li>
+				</ul>
+			</div>
+			<div class="col-lg-4 size-h4">
+				Time
+			</div>
+			<div class="col-lg-8" style="margin-top:5px">
+				<input type="number" size="2" min="0" max="23" id="ontimer-hour-value" value="00" class="form-control" style="width:60px;display:inline;"/>
+				:
+				<input type="number" size="2" min="0" max="59" id="ontimer-min-value" value="00"  class="form-control" style="width:60px;display:inline;"/>
+			</div>
+			<div class="col-lg-4 size-h4">
+				Week
+			</div>
+			<div class="col-lg-8">
+				<div id="ontimer-week-toggles" class="btn-group btn-group-sm">
+					<button class="btn btn-default weeks-enable-toggle" id="ontimer_week1" value="Sun">
+						Sun
+					</button>
+					<button class="btn btn-default weeks-enable-toggle" id="ontimer_week2" value="Mon">
+						Mon
+					</button>
+					<button class="btn btn-default weeks-enable-toggle" id="ontimer_week3" value="Tue">
+						Tue
+					</button>
+					<button class="btn btn-default weeks-enable-toggle" id="ontimer_week4" value="Wed">
+						Wed
+					</button>
+					<button class="btn btn-default weeks-enable-toggle" id="ontimer_week5" value="Thu">
+						Thu
+					</button>
+					<button class="btn btn-default weeks-enable-toggle" id="ontimer_week6" value="Fri">
+						Fri
+					</button>
+					<button class="btn btn-default weeks-enable-toggle" id="ontimer_week7" value="Sat">
+						Sat
+					</button>
+				</div>
+			</div>
+			<div class="col-lg-4 size-h4"></div>
+			<div class="col-lg-8">
+				<button type="button" id="ontimer-ok-btn" class="btn btn-primary">
+					<i class="glyphicon glyphicon-ok"></i>
+					ADD
+				</button>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-lg-12 configuration-title">
+		<p class="size-h2" id="offtimer-label">
+			<img src="resources/img/svg/bg_index_titleicon2.svg"> Off Timer
+			<button id="offtimerUpdateBtn" class="btn btn-sm btn-primary">
+				<i class="glyphicon glyphicon-repeat"></i>
+				Reload
+			</button>
+		</p>
+	</div>
+
+	<div class="col-lg-12">
+		<div class="col-lg-8">
+			<table id="offtimer-table" class="table table-condensed table-striped table-hover size-h4">
+				<thead>
+					<tr>
+						<td class="col-lg-1"><b>No</b></td>
+						<!--<td class="col-lg-1"><b>Enabled</b></td>-->
+						<td class="col-lg-1"><b>Time</b></td>
+						<td class="col-lg-2"><b>Week</b></td>
+						<td class="col-lg-1"><b>Delete</b></td>
+						
+					</tr>
+				</thead>
+				<tbody id="offtimer-table-tbody">
+					<tr>
+						<td colspan="5" class="text-center">no data</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div class="col-lg-4">
+		   <!--
+			<div class="col-lg-4 size-h4">
+				No
+			</div>
+			<div class="col-lg-8">
+				<button id="offtimer-no-btn"  type="button" class="btn btn-default dropdown-toggle disabled" data-toggle="dropdown">
+					<span id="hour1-combo">-</span>
+				</button>
+
+				<ul id="offtimerInputCombo" class="dropdown-menu" role="menu">
+					<li>
+						<a  id="offtimer_no_combo_value_1">1</a>
+					</li>
+					<li>
+						<a  id="offtimer_no_combo_value_2">2</a>
+					</li>
+					<li>
+						<a  id="offtimer_no_combo_value_3">3</a>
+					</li>
+					<li>
+						<a  id="offtimer_no_combo_value_4">4</a>
+					</li>
+					<li>
+						<a  id="offtimer_no_combo_value_5">5</a>
+					</li>
+					<li>
+						<a  id="offtimer_no_combo_value_6">6</a>
+					</li>
+					<li>
+						<a  id="offtimer_no_combo_value_7">7</a>
+					</li>
+				</ul>
+			</div>
+			
+			<div class="col-lg-4 size-h4">
+				Enabled
+			</div>
+			<div class="col-lg-8">
+				<div id="offtimer-enable-toggle"  class="btn-group onoff-toggle">
+					<button class="btn btn-default" value="On">
+						On
+					</button>
+					<button class="btn btn-primary active" value="Off">
+						Off
+					</button>
+				</div>
+			</div>
+			-->
+			<div class="col-lg-4 size-h4">
+				Time
+			</div>
+			<div class="col-lg-8" style="margin-top:5px">
+				<input type="number" size="2" min="0" max="23" id="offtimer-hour-value" value="00" class="form-control" style="width:60px;display:inline;"/>
+				:
+				<input type="number" size="2" min="0" max="59" id="offtimer-min-value" value="00"  class="form-control" style="width:60px;display:inline;"/>
+			</div>
+			<div class="col-lg-4 size-h4">
+				Week
+			</div>
+			<div class="col-lg-8">
+				<div id="offtimer-week-toggles" class="btn-group btn-group-sm">
+					<button class="btn btn-default weeks-enable-toggle" id="offtimer_week1" value="Sun">
+						Sun
+					</button>
+					<button class="btn btn-default weeks-enable-toggle" id="offtimer_week2" value="Mon">
+						Mon
+					</button>
+					<button class="btn btn-default weeks-enable-toggle" id="offtimer_week3" value="Tue">
+						Tue
+					</button>
+					<button class="btn btn-default weeks-enable-toggle" id="offtimer_week4" value="Wed">
+						Wed
+					</button>
+					<button class="btn btn-default weeks-enable-toggle" id="offtimer_week5" value="Thu">
+						Thu
+					</button>
+					<button class="btn btn-default weeks-enable-toggle" id="offtimer_week6" value="Fri">
+						Fri
+					</button>
+					<button class="btn btn-default weeks-enable-toggle" id="offtimer_week7" value="Sat">
+						Sat
+					</button>
+				</div>
+			</div>
+			<div class="col-lg-4 size-h4"></div>
+			<div class="col-lg-8">
+				<button type="button" id="offtimer-ok-btn" class="btn btn-primary">
+					<i class="glyphicon glyphicon-ok"></i>
+					ADD
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+							
+						</div>
+						<!-- tab timer configure end -->
+
+						<!-- tab advancedsetting configure start -->
+						<div class="tab-pane fade" id="advancedsetting">
+							
+<div class="col-lg-12" style="background-color:#fff;border-bottom:1px solid #ddd;border-right:1px solid #ddd;border-left:1px solid #ddd;border-radius:0 0 4px 4px; margin-top:0px;min-height:300px;padding-bottom:25px">
+
+	<div class="col-lg-12">
+		<div class="col-lg-12 configuration-title">
+			<p class="size-h2">
+				<img src="resources/img/svg/bg_index_titleicon2.svg"> Setting Information
+			</p>
+		</div>
+
+		<div class="col-lg-6">
+			<div class="row configuration-row">
+				<div class="col-lg-4 size-h4">
+					Portrait
+				</div>
+				<div class="col-lg-8">
+					<div id="portrait-toggle" class="btn-group onoff-toggle">
+						<button class="btn btn-default" value="On">
+							On
+						</button>
+						<button class="btn btn-primary active" value="Off">
+							Off
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-lg-6">
+			<div class="row configuration-row">
+				<div class="col-lg-4 size-h4">
+					Power Save
+				</div>
+				<div class="col-lg-8">
+					<button type="button" class="btn btn-primary btn-group-sm dropdown-toggle" data-toggle="dropdown">
+						<span id="powersave-combo">SES</span>
+						<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" role="menu">
+						<li>
+							<a href="#" id="powersave-combo-value-1" >SES(Smart Energy Saving)</a>
+						</li>
+						<li>
+							<a href="#" id="powersave-combo-value-2" >DPM(Display Power Management)</a>
+						</li>
+						<li>
+							<a href="#" id="powersave-combo-value-3" >Automatic Standby</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		
+
+		<div class="col-lg-6">
+			<div class="row configuration-row">
+				<div class="col-lg-5 size-h4">
+					Usage Permission Mode(Local)
+				</div>
+				<div class="col-lg-7">
+					<button type="button" class="btn btn-primary btn-group-sm dropdown-toggle" data-toggle="dropdown">
+						<span id="localpermission-combo">All Block</span>
+						<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" role="menu">
+						<li>
+							<a href="#" id="localpermission-combo-value-1">All Block</a>
+						</li>
+						<li>
+							<a href="#" id="localpermission-combo-value-2">All Allow</a>
+						</li>
+						<li>
+							<a href="#" id="localpermission-combo-value-3">Power Only</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		
+
+		<div class="col-lg-6">
+			<div class="row configuration-row">
+				<div class="col-lg-5 size-h4">
+					Usage Permission Mode(Remote)
+				</div>
+				<div class="col-lg-7">
+					<button type="button" class="btn btn-primary btn-group-sm dropdown-toggle" data-toggle="dropdown">
+						<span id="remotepermission-combo">All Block</span>
+						<span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu" role="menu">
+						<li>
+							<a href="#" id="remotepermission-combo-value-1">All Block</a>
+						</li>
+						<li>
+							<a href="#" id="remotepermission-combo-value-2">All Allow</a>
+						</li>
+						<li>
+							<a href="#" id="remotepermission-combo-value-3">Power Only</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		
+		
+
+	</div>
+							
+						</div>
+						<!-- tab advancedsetting configure end -->
+
+					</div>
+					<!-- tabs content end-->
+
+					<!-- tabs start -->
+
+				</div>
+				<!-- main contents-->
+
+			</div>
+
+		</div><!-- /.container -->
+
+		<!-- hidden controll values start -->
+		<div class="hidden">
+			<!-- Video Clipping (Use Input Element)-->
+		</div>
+		<!-- hidden controll values end -->
+
+		<input type="hidden" id="video_eventlistener"/>
+		<input type="hidden" id="audio_eventlistener"/>
+		<input type="hidden" id="power_eventlistener"/>
+		<input type="hidden" id="input_eventlistener"/>
+		<input type="hidden" id="timer_eventlistener"/>
+		<input type="hidden" id="advancedsetting_eventlistener"/>
+		
+	</body>
+
+	<script src="/resources/rpc-client.js"></script>
+	<script src="/resources/master.js"></script>
+	<script src="/resources/progressbar.js"></script>
+	<script src="/resources/common.js"></script>
+	<script src="/resources/configuration_video.js"></script>
+	<script src="/resources/configuration_audio.js"></script>
+	<script src="/resources/configuration_power.js"></script>
+	<script src="/resources/configuration_input.js"></script>
+	<script src="/resources/configuration_timer.js"></script>
+	<script src="/resources/configuration_advancedsetting.js"></script>
+
+	<script language="javascript">
+		
+		$('#configtabs a').click(function(e) {
+			e.preventDefault();
+			$(this).tab('show');
+			var targetid = $(this).text().toLowerCase().replace(" ", "");
+			$("#" + targetid + "_eventlistener").click();
+
+			console.log("configtabs click!");
+			console.log("name:" + this);
+			console.log("targetid >" + targetid);
+		});
+
+		var devicesComboEl = $("#devicesCombo");
+
+		function refreshNode() {
+			for (var i in devices) {
+				var deviceId = devices[i].mac;
+				var liEl = document.createElement("li");
+				var linkEl = document.createElement("a");
+				$(linkEl).attr("href", "#device=" + deviceId);
+				$(linkEl).text(deviceId);
+				$(liEl).append(linkEl);
+				devicesComboEl.append(liEl);
+			}
+		}
+
+		function isTargetDevice(id) {
+			return selectedDevice == id ? true : false;
+		}
+
+		function updateTextInElement(elID, label, txt) {
+			$(document).find("#" + elID).html("<font color='#f70'>" + label + "</font>");
+			$(document).find("#" + elID).append("<b>" + txt + "</b>");
+		}
+	</script>
+
+	<script language="javascript">
+		function createPercentSlider(id, defaultX, callbackFunc) {
+			var postfix = "_slider_component";
+
+			var el = "<div id='" + id + postfix + "' class='dragdealer col-lg-8'>";
+			el += "<div class='handle red-bar' style='width:45px;border-radius:5px'>";
+			el += "<span class='value'></span>%</div></div>";
+
+			$("#" + id).html(el);
+			$("#" + id + "-value").val(defaultX * 100);
+
+			var slider = new Dragdealer(id + postfix, {
+				x : defaultX,
+				speed : 0.1,
+				steps : 1,
+				animationCallback : function(x, y) {
+					$("#" + id + postfix).find('.value').text(Math.round(x * 100));
+				},
+				callback : function(x, y) {
+					var value = Math.round(x * 100);
+					$("#" + id + "-value").val(value);
+					callbackFunc();
+				}
+			});
+		}
+
+		function createOnNOffToggleSlider(id, defaultX, setFunc) {
+			var postfix = "_slider_component";
+
+			var el = "<div id='" + id + postfix + "' class='dragdealer col-lg-8'>";
+			el += "<div class='handle red-bar' style='width:45px;border-radius:5px'>";
+			el += "<span class='value'>On</span></div></div>";
+
+			$("#" + id).html(el);
+			setText(defaultX);
+			function setText(val) {
+				status = val == 0 ? 'Off' : 'On';
+				$("#" + id + postfix).find('.value').text(status);
+				$("#" + id + "-value").val(val);
+			}
+
+			var slider = new Dragdealer(id + postfix, {
+				x : defaultX,
+				steps : 2,
+				speed : 0.1,
+				callback : function(x, y) {
+					var status = "";
+					setText(x);
+					setFunc();
+				}
+			});
+		}
+	</script>
+
+	<script language="javascript">
+		$(document).ready(function() {
+			console.log("============================");
+			console.log("configuration document ready!");
+			console.log("============================");
+
+			var targetId = "video";
+			$("#" + targetId + "_eventlistener").click();
+			$('.nav-tabs a[href=#' + targetId + "]").tab('show');
+			initOnOffButton();
+		});
+
+	</script>
+
+</html>

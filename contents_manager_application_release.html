@@ -1,0 +1,51 @@
+<div class="col-lg-12">
+
+	<div class="col-lg-2">
+		<span class="size-h4">Deploy File</span>
+	</div>
+	<div class="col-lg-4">
+		<form id="contentdeployform" target="_backframe2" action="/upload" method="post" enctype="multipart/form-data">
+			<input id="deployFile" type="file" name="uploadFile" title="Search for a file to add" class="btn btn-primary">
+			<input id="deployDeviceID" name="contentDeviceID" type="hidden"/>
+			<input id="deployType" name="contentType" type="hidden" value="deploy"/>
+		</form>
+	</div>
+	<div class="col-lg-6">
+		<button id="deployFileUploadBtn" class="btn btn-primary">
+			<i class="glyphicon glyphicon-cloud-upload"></i>
+			Deploy
+		</button>
+		<button id="slaveRebootBtn" class="btn btn-primary">
+			<i class="glyphicon glyphicon-repeat"></i>
+			Slave Reboot
+		</button>
+	</div>
+
+</div>
+
+<iframe id="_backframe2" style="height:0px;width:0px;border:0px"></iframe>
+
+<script language="javascript">
+
+	$("#_backframe2").load(function() {
+		completeReceiveCB();
+		masterMessage({
+			'api' : 'deployApplication',
+			'selectedDevice' : selectedDevice
+		});
+	});
+
+	$("#deployFileUploadBtn").on("click", function() {
+		$("#contentdeployform").submit();
+		initProgress(2);
+		completeReceiveCB();
+	});
+
+	$("#slaveRebootBtn").on("click", function() {
+		var cmd={
+			api:'reboot'
+		};
+		callMessage(cmd);
+	});
+
+</script>

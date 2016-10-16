@@ -1,0 +1,35 @@
+<html>
+
+	<script src="/procentric/scap/application/cordova/2.7.0/cordova.webos.js"></script>
+	<script src="/procentric/scap/application/cordova-cd/1.2/configuration.js"></script>
+	<script src="/procentric/scap/application/cordova-cd/1.2/deviceInfo.js"></script>
+	<script src="/procentric/scap/application/cordova-cd/1.2/inputSource.js"></script>
+	<script src="/procentric/scap/application/cordova-cd/1.2/power.js"></script>
+	<script src="/procentric/scap/application/cordova-cd/1.2/signage.js"></script>
+	<script src="/procentric/scap/application/cordova-cd/1.2/sound.js"></script>
+	<script src="/procentric/scap/application/cordova-cd/1.2/storage.js"></script>
+	<script src="/procentric/scap/application/cordova-cd/1.2/video.js"></script>
+	<script language="javascript">
+	var webos = [];
+		webos.getSignageInfo = function() {
+			console.log("execute getSignageInfo !!!!!!!!!!!!!!!!!");
+
+			var successCb = function(cbObject) {
+				console.log("execute getSignageInfo !!!!!!!!!!!!!!!!!!!! success");
+				console.log(JSON.stringify(cbObject));
+			};
+
+			var failureCb = function(cbObject) {
+				console.log("execute getSignageInfo ++++++++++++++++++++++ fail");
+				console.log(JSON.stringify(cbObject));
+			};
+
+			var signage = new Signage;
+			//TODO:success fail 메소드 교차해서 적용했음 추후 뒤집어야함!!!!!!!!!!!!
+			signage.getSignageInfo(successCb, failureCb);
+		};
+
+		webos.getSignageInfo();
+	</script>
+
+</html>

@@ -1,0 +1,287 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>LG SIGNAGE</title>
+	</head>
+
+	<!-- Bootstrap core CSS -->
+	<link rel="stylesheet" href="./bootstrap/3.1.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="./bootstrap/3.1.1/css/bootstrap-theme.min.css">
+	<!-- Custom styles for this template -->
+	<link href="./bootstrap/3.1.1/layout_custom_css/starter-template.css" rel="stylesheet">
+
+	<script src="./jquery/1.11.0/jquery-1.11.0.min.js"></script>
+	<script src="./bootstrap/3.1.1/js/bootstrap.min.js"></script>
+
+	<!-- Just for debugging purposes. Don't actually copy this line! -->
+	<!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+	<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+
+	<!-- Socket.IO -->
+	<script src="/socket.io/socket.io.js"></script>
+	<body>
+
+		<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+			<div>
+				<div class="navbar-header">
+				<a class="navbar-brand" href="/" style="padding:0px 5px"> 
+					<span class="page-title">
+					<img src="resources/img/svg/bg_logo_recommendedusage_2.svg" height="47">
+					</span> 
+				</a>
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+				</div>
+			</div>
+			<div class="collapse navbar-collapse" id="bs-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li>
+						<a id="showLogBtn" href="#">Application Log</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="container-fluid content" style="padding:0px">
+
+			<div class="row-fluid">
+
+				<!-- loading modal start -->
+				<div id="progress-modal" class="modal js-loading-bar" style="top:300px">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-body">
+								Update Device Infomation
+								<div class="progress progress-striped progress-popup active">
+									<div id="loading" class="progress-bar progress-bar-danger">
+										Loading...
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- loading modal end -->
+
+				<!-- msgLog modal start -->
+				<div id="msgLog-modal" class="modal fade">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h4>Application Log</h4>
+							</div>
+							<div id="msgLog" class="modal-body" style="height:250px;overflow-x:hidden;overflow-y:auto"></div>
+							<div class="modal-footer">
+								<button id="playBtn" class="btn btn-primary">
+									<i class="glyphicon glyphicon-tag"></i>
+									Play
+								</button>
+								<button id="captureScreenBtn" class="btn btn-primary">
+									<i class="glyphicon glyphicon-tag"></i>
+									Capture
+								</button>
+								<button id="devicesBtn" class="btn btn-primary">
+									<i class="glyphicon glyphicon-tag"></i>
+									Devices
+								</button>
+								<button id="initNetworkInfoBtn" class="btn btn-primary">
+									<i class="glyphicon glyphicon-tag"></i>
+									Init Network Info
+								</button>
+								<button id="platformInfoBtn" class="btn btn-primary">
+									<i class="glyphicon glyphicon-tag"></i>
+									Platform
+								</button>
+								<button id="pictureModeBtn" class="btn btn-primary">
+									<i class="glyphicon glyphicon-tag"></i>
+									Picture
+								</button>
+								<button id="currentTimeBtn" class="btn btn-primary">
+									<i class="glyphicon glyphicon-tag"></i>
+									Time
+								</button>
+								<button id="networkMacInfoBtn" class="btn btn-primary">
+									<i class="glyphicon glyphicon-tag"></i>
+									Mac
+								</button>
+								<button id="networkInfoBtn" class="btn btn-primary">
+									<i class="glyphicon glyphicon-tag"></i>
+									Network
+								</button>
+								<button id="toggleDebugModeBtn" class="btn btn-primary">
+									<i class="glyphicon glyphicon-ok"></i>
+									Debug
+								</button>
+								<button id="msgLogCleanBtn" class="btn btn-primary">
+									<i class="glyphicon glyphicon-trash"></i>
+									Clean
+								</button>
+								</br></br>
+								<button id="refreshBtn" class="btn btn-danger">
+									<i class="glyphicon glyphicon-refresh"></i>
+									Refresh
+								</button>
+								<button id="rebootBtn" class="btn btn-danger">
+									<i class="glyphicon glyphicon-off"></i>
+									Reboot
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- msgLog modal end -->
+
+
+				<div class="sidebar col-md-2 col-sm-1">
+					<ul class="nav nav-sidebar bs-glyphicons" style="overflow:hidden;width:auto;height:100%;">
+						<li class="bg-red">
+							<a href="#page=information"> 
+								<img src="resources/img/svg/bg_information.svg" class="lg_icon"> </a>
+						</li>
+						<li class="bg-orange">
+							<a href="#page=configuration"> 
+								<img src="resources/img/svg/bg_configuration.svg" class="lg_icon"></a>
+						</li>
+						<li class="bg-green">
+							<a href="#page=contents_manager"> 
+								<img src="resources/img/svg/bg_contentsmanager.svg" class="lg_icon"></a>
+						</li>
+					</ul>
+				</div>
+
+				<div class="sidebar-collapse collapse">
+					<ul class="nav nav-sidebar bs-glyphicons" style="overflow:hidden;width:auto;height:100%;">
+						<li class="bg-red active">
+							<a href="#page=information"> <img src="resources/img/svg/bg_information.svg" class="lg_icon"> <span class="sidebar-title"> Information</span> </a>
+						</li>
+						<li class="bg-orange">
+							<a href="#page=configuration"> <img src="resources/img/svg/bg_configuration.svg" class="lg_icon"> <span class="sidebar-title"> Configuration</span> </a>
+						</li>
+						<li class="bg-green">
+							<a href="#page=contents_manager"> <img src="resources/img/svg/bg_contentsmanager.svg" class="lg_icon"> <span class="sidebar-title"> Contents Manager</span> </a>
+						</li>
+					</ul>
+				</div>
+
+				<!-- main contents-->
+				<div class="col-md-12 col-sm-12 main">
+
+					<div class="well well-sm">
+						<h3><img src="resources/img/svg/bg_contentsmanager.svg"> Contents Manager <small class="text pull-right">
+							<div class="btn-group">
+								<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+									<span id="selected_device_id">Device</span><span class="caret"></span>
+								</button>
+								<ul id="devicesCombo"  class="dropdown-menu" role="menu"></ul>
+							</div> </small></h3>
+					</div>
+
+					<div class="col-lg-12" style="background-color:#fff;border-bottom:1px solid #ddd;border-right:1px solid #ddd;border-left:1px solid #ddd;border-radius:0 0 4px 4px; margin-top:0px;min-height:300px;padding-bottom:25px">
+<!--
+						<div class="col-lg-12 configuration-title">
+							<p class="size-h2" >
+								<img src="resources/img/svg/bg_contentsmanager_contentslist.svg" class="lg_icon">
+								Contents
+							</p>
+							<div src="contents_manager_contents.html"></div>
+						</div>
+
+
+						<div class="col-lg-12 configuration-title">
+							<p class="size-h2" >
+								<img src="resources/img/svg/bg_contentsmanager_apprelease.svg" class="lg_icon">
+								Application Release
+							</p>
+							<div src="contents_manager_application_release.html"></div>
+						</div>
+-->
+						<div class="col-lg-12 configuration-title">
+							<p class="size-h2" >
+								<img src="resources/img/svg/bg_contentsmanager_scheduling.svg" class="lg_icon">
+								Scheduling
+							</p>
+							<div src="contents_manager_scheduling.html"></div>
+						</div>
+
+					</div>
+
+				</div>
+				<!-- main contents-->
+
+			</div>
+
+		</div><!-- /.container -->
+
+	</body>
+
+	<script src="resources/rpc-client.js"></script>
+	<script src="resources/master.js"></script>
+	<script src="resources/common.js"></script>
+	<script src="resources/progressbar.js"></script>
+
+
+	<script language="JavaScript">
+		var devicesComboEl = $("#devicesCombo");
+
+		function refreshNode() {
+			completeReceiveCB();
+			for (var i in devices) {
+				var deviceId = devices[i].mac;
+				var liEl = document.createElement("li");
+				var linkEl = document.createElement("a");
+				$(linkEl).attr("href", "#device=" + deviceId);
+				$(linkEl).text(deviceId);
+				$(liEl).append(linkEl);
+				devicesComboEl.append(liEl);
+			}
+		}
+
+		$(document).ready(function() {
+			console.log("============================");
+			console.log("configuration document ready!");
+			console.log("============================");
+
+			var targetId = "video";
+			$("#" + targetId + "_eventlistener").click();
+			$('.nav-tabs a[href=#' + targetId + "]").tab('show');
+			refreshNode();
+		});
+
+	</script>
+	
+	<script language="javascript">
+		$("#progress-modal").modal({
+			backdrop : 'static',
+			show : false
+		});
+
+		function onLoading() {
+			var modal = $("#progress-modal");
+			var bar = modal.find('.progress-bar');
+
+			modal.modal('show');
+			bar.addClass('animate');
+
+			setTimeout(function() {
+				bar.removeClass('animate');
+				modal.modal('hide');
+			}, 500);
+		}
+		
+		onLoading();
+	</script>
+	
+</html>

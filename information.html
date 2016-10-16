@@ -1,0 +1,429 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>LG SIGNAGE</title>
+	</head>
+
+	<!-- Bootstrap core CSS -->
+	<link rel="stylesheet" href="./bootstrap/3.1.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="./bootstrap/3.1.1/css/bootstrap-theme.min.css">
+	<!-- Custom styles for this template -->
+	<link href="./bootstrap/3.1.1/layout_custom_css/starter-template.css" rel="stylesheet">
+
+	<script src="./jquery/1.11.0/jquery-1.11.0.min.js"></script>
+	<script src="./bootstrap/3.1.1/js/bootstrap.min.js"></script>
+	<script src="./resources/common.js"></script>
+
+	<!-- Just for debugging purposes. Don't actually copy this line! -->
+	<!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+	<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+
+	<!-- Socket.IO -->
+	<script src="/socket.io/socket.io.js"></script>
+
+	<body>
+
+		<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+			<div>
+				<div class="navbar-header">
+				<a class="navbar-brand" href="/" style="padding:0px 5px"> 
+					<span class="page-title">
+					<img src="resources/img/svg/bg_logo_recommendedusage_2.svg" height="47">
+					</span> 
+				</a>
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+				</div>
+			</div>
+			<div class="collapse navbar-collapse" id="bs-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li>
+						<a id="showLogBtn" href="#">Application Log</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="container-fluid content" style="padding:0px">
+
+			<div class="row-fluid">
+
+				<!-- loading modal start -->
+				<div id="progress-modal" class="modal js-loading-bar" style="top:300px">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-body">
+								Update Device Infomation
+								<div class="progress progress-striped progress-popup active">
+									<div id="loading" class="progress-bar progress-bar-danger">Loading...</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- loading modal end -->
+
+				<!-- msgLog modal start -->
+				<div id="msgLog-modal" class="modal fade">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h4>Application Log</h4>
+							</div>
+							<div id="msgLog" class="modal-body" style="height:250px;overflow-x:hidden;overflow-y:auto"></div>
+							<div class="modal-footer">
+								<button id="playBtn" class="btn btn-primary">
+									<i class="glyphicon glyphicon-tag"></i>
+									Play
+								</button>
+								<button id="captureScreenBtn" class="btn btn-primary">
+									<i class="glyphicon glyphicon-tag"></i>
+									Capture
+								</button>
+								<button id="devicesBtn" class="btn btn-primary">
+									<i class="glyphicon glyphicon-tag"></i>
+									Devices
+								</button>
+								<button id="initNetworkInfoBtn" class="btn btn-primary">
+									<i class="glyphicon glyphicon-tag"></i>
+									Init Network Info
+								</button>
+								<button id="platformInfoBtn" class="btn btn-primary">
+									<i class="glyphicon glyphicon-tag"></i>
+									Platform
+								</button>
+								<button id="pictureModeBtn" class="btn btn-primary">
+									<i class="glyphicon glyphicon-tag"></i>
+									Picture
+								</button>
+								<button id="currentTimeBtn" class="btn btn-primary">
+									<i class="glyphicon glyphicon-tag"></i>
+									Time
+								</button>
+								<button id="networkMacInfoBtn" class="btn btn-primary">
+									<i class="glyphicon glyphicon-tag"></i>
+									Mac
+								</button>
+								<button id="networkInfoBtn" class="btn btn-primary">
+									<i class="glyphicon glyphicon-tag"></i>
+									Network
+								</button>
+								<button id="toggleDebugModeBtn" class="btn btn-primary">
+									<i class="glyphicon glyphicon-ok"></i>
+									Debug
+								</button>
+								<button id="msgLogCleanBtn" class="btn btn-primary">
+									<i class="glyphicon glyphicon-trash"></i>
+									Clean
+								</button>
+								</br></br>
+								<button id="refreshBtn" class="btn btn-danger">
+									<i class="glyphicon glyphicon-refresh"></i>
+									Refresh
+								</button>
+								<button id="rebootBtn" class="btn btn-danger">
+									<i class="glyphicon glyphicon-off"></i>
+									Reboot
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- msgLog modal end -->
+
+				<div class="sidebar col-md-2 col-sm-1">
+					<ul class="nav nav-sidebar bs-glyphicons" style="overflow:hidden;width:auto;height:100%;">
+						<li class="bg-red">
+							<a href="#page=information"> 
+								<img src="resources/img/svg/bg_information.svg" class="lg_icon"> </a>
+						</li>
+						<li class="bg-orange">
+							<a href="#page=configuration"> 
+								<img src="resources/img/svg/bg_configuration.svg" class="lg_icon"></a>
+						</li>
+						<li class="bg-green">
+							<a href="#page=contents_manager"> 
+								<img src="resources/img/svg/bg_contentsmanager.svg" class="lg_icon"></a>
+						</li>
+					</ul>
+				</div>
+
+				<div class="sidebar-collapse collapse">
+					<ul class="nav nav-sidebar bs-glyphicons" style="overflow:hidden;width:auto;height:100%;">
+						<li class="bg-red active">
+							<a href="#page=information"> <img src="resources/img/svg/bg_information.svg" class="lg_icon"> <span class="sidebar-title"> Information</span> </a>
+						</li>
+						<li class="bg-orange">
+							<a href="#page=configuration"> <img src="resources/img/svg/bg_configuration.svg" class="lg_icon"> <span class="sidebar-title"> Configuration</span> </a>
+						</li>
+						<li class="bg-green">
+							<a href="#page=contents_manager"> <img src="resources/img/svg/bg_contentsmanager.svg" class="lg_icon"> <span class="sidebar-title"> Contents Manager</span> </a>
+						</li>
+					</ul>
+				</div>
+
+				<!-- main contents-->
+				<div class="col-md-12 col-sm-12 main">
+					<div class="well well-sm">
+						<h3>
+							<img src="resources/img/svg/bg_information.svg"> 
+							Information <span class="text pull-right">
+							<div class="btn-group" style="top:-10px;">
+								<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+									<span id="selected_device_id">Device</span><span class="caret"></span>
+								</button>
+								<ul id="devicesCombo" class="dropdown-menu" role="menu"></ul>
+							</div> </span></h3>
+					</div>
+
+					<div id="template-node" class="col-sm-4">
+						<div class="panel" style="padding:20px">
+							<p class="size-h2">
+								<img src="resources/img/svg/bg_information_networkinfo.svg" style="height:28px">
+								Network
+							</p>
+							<p class="text-muted">
+								<span data-i18n="Clients" id="ipAddress">IP: </span>
+							</p>
+							<p class="text-muted">
+								<span data-i18n="Clients" id="macAddress">Mac: </span>
+							</p>
+						</div>
+					</div>
+
+					<div id="template-node" class="col-sm-4">
+						<div class="panel" style="padding:20px">
+							<p class="size-h2">
+								<img src="resources/img/svg/bg_information_platforminfo.svg" style="height:28px">
+								Platform
+							</p>
+							<p class="text-muted">
+								<span data-i18n="Clients" id="hwVersion">HW Version: </span>
+							</p>
+							<p class="text-muted">
+								<span data-i18n="Clients" id="modelName">Model Name: </span>
+							</p>
+						</div>
+					</div>
+					<div id="template-node" class="col-sm-4">
+						<div class="panel" style="padding:20px">
+							<p class="size-h2">
+								<img src="resources/img/svg/bg_information_storageinfo.svg" style="height:28px">
+								Storage
+							</p>
+							<p class="text-muted">
+								<span data-i18n="Clients" id="storageTotal">Total: </span>
+							</p>
+							<p class="text-muted">
+								<span data-i18n="Clients" id="storageFree">Free</span> | <span data-i18n="Clients" id="storageUsed">Used</span>
+							</p>
+						</div>
+					</div>
+
+					<div id="template-node" class="col-sm-4">
+						<div class="panel" style="padding:20px">
+							<p class="size-h2">
+								<i class="glyphicon glyphicon-chevron-right"></i> 
+								Usage
+							</p>
+							<p class="text-muted">
+								<span data-i18n="Clients" id="upTime">Up Time(Hour): </span>
+							</p>
+							<p class="text-muted">
+								<span data-i18n="Clients" id="totalTime">Total Usage Time(Hour): </span>
+							</p>
+						</div>
+					</div>
+					<div id="template-node" class="col-sm-4">
+						<div class="panel" style="padding:20px">
+							<p class="size-h2">
+								<img src="resources/img/svg/bg_information_monitoringinfo.svg" style="height:28px">
+								Monitoring
+							</p>
+							<p class="text-muted">
+								<span data-i18n="Clients" id="monitoringFan">Fan: </span> | <span data-i18n="Clients" id="monitoringScreen">Screen: </span> | <span data-i18n="Clients" id="monitoringLamp">Lamp: </span>
+							</p>
+							<p class="text-muted">
+								<span data-i18n="Clients" id="monitoringSignal">Signal: </span> | <span data-i18n="Clients" id="monitoringTemp">Temperature('C): </span>
+							</p>
+						</div>
+					</div>
+					<div id="template-node" class="col-sm-4">
+						<div class="panel" style="padding:20px">
+							<p class="size-h2">
+								<img src="resources/img/svg/bg_information_consolelog.svg" style="height:28px">
+								Console Log
+							</p>
+							<p class="text-muted">
+								<span data-i18n="Clients" >
+									<button id="enableConsoleBtn" type="button" class="btn btn-primary">
+										<i class="glyphicon glyphicon-ok"></i>
+										Start
+									</button>
+									<button id="disableConsoleBtn" type="button" class="btn btn-primary">
+										<i class="glyphicon glyphicon-remove"></i>
+										Stop
+									</button> </span>
+							</p>
+						</div>
+					</div>
+
+				</div>
+				<!-- main contents-->
+
+			</div>
+
+		</div><!-- /.container -->
+
+	</body>
+
+	<script src="/resources/rpc-client.js"></script>
+	<script src="/resources/master.js"></script>
+	<script src="/resources/progressbar.js"></script>
+
+	<script language="javascript">
+
+		$("#enableConsoleBtn").on("click", function(){callMessage("enableConsole");});
+		$("#disableConsoleBtn").on("click", function(){callMessage("disableConsole");});
+		
+		var devicesComboEl = $("#devicesCombo");
+
+		function refreshNode() {
+			for (var i in devices) {
+				var deviceId = devices[i].mac;
+				var liEl = document.createElement("li");
+				var linkEl = document.createElement("a");
+				$(linkEl).attr("href", "#device=" + deviceId);
+				$(linkEl).text(deviceId);
+				$(liEl).append(linkEl);
+				devicesComboEl.append(liEl);
+			}
+		}
+
+		function isTargetDevice(id) {
+			return selectedDevice == id ? true : false;
+		}
+
+		function updateTextInElement(elID, label, txt) {
+			$(document).find("#" + elID).html("<font color='#f70'>" + label + "</font>");
+			$(document).find("#" + elID).append("<b>" + txt + "</b>");
+		}
+
+	</script>
+	
+	<script language="javascript">
+		function onSelectDevice(id) {
+			initProgress(5);
+			completeReceiveCB();
+			updateTextInElement("ipAddress", "IP: ", "checking!");
+			updateTextInElement("macAddress", "Mac: ", "checking!");
+			updateTextInElement("modelName", "Model Name: ", "checking!");
+			updateTextInElement("hwVersion", "HW Version: ", "checking!");
+			updateTextInElement("storageTotal", "Total: ", "checking!");
+			updateTextInElement("storageFree", "Free: ", "checking!");
+			updateTextInElement("storageUsed", "Used: ", "checking!");
+			updateTextInElement("upTime", "Up Time(Hour): ", "checking!");
+			updateTextInElement("totalTime", "Total Usage Time(Hour): ", "checking!");
+			updateTextInElement("monitoringFan", "Fan: ", "checking!");
+			updateTextInElement("monitoringScreen", "Screen: ", "checking!");
+			updateTextInElement("monitoringLamp", "Lamp: ", "checking!");
+			updateTextInElement("monitoringSignal", "Signal: ", "checking!");
+			updateTextInElement("monitoringTemp", "Temperature('C): ", "checking!");
+		}
+
+		function onGoPage(page) {
+			
+			if(selectedDevice==""){
+				$("#progress-modal").modal('hide');
+				return;
+			} 
+			
+			callMessage('getPlatformInfo');
+			callMessage('getStorageInfo');
+			callMessage('getUsageData');
+			callMessage('getSystemMonitoringInfo');
+			
+			parser.getPlatformInfo = function(data) {
+				if (isTargetDevice(data.mac)) {
+					completeReceiveCB();
+					console.log("parser.getPlatformInfo target ip >" + data.ip);
+					console.log("parser.getPlatformInfo target mac>" + data.mac);
+
+					var result = data.result;
+					var firmwareVersion = result.firmwareVersion;
+					var hardwareVersion = result.hardwareVersion;
+					var manufacturer = result.manufacturer;
+					var modelName = result.modelName;
+					var sdkVersion = result.sdkVersion;
+					var serialNumber = result.serialNumber;
+
+					updateTextInElement("ipAddress", "IP: ", data.ip);
+					updateTextInElement("macAddress", "Mac: ", data.mac);
+
+					updateTextInElement("modelName", "Model Name: ", modelName);
+					updateTextInElement("hwVersion", "HW Version: ", hardwareVersion);
+				}
+			};
+
+			parser.getStorageInfo = function(data) {
+				if (isTargetDevice(data.mac)) {
+					completeReceiveCB();
+					updateTextInElement("storageFree", "Free: ", formatSizeUnits(data.result.free));
+					updateTextInElement("storageTotal", "Total: ", formatSizeUnits(data.result.total));
+					updateTextInElement("storageUsed", "Used: ", formatSizeUnits(data.result.usedSize));
+				}
+			};
+
+			parser.getUsageData = function(data) {
+				if (isTargetDevice(data.mac)) {
+					completeReceiveCB();
+					updateTextInElement("upTime", "Up Time(Hour):", data.result.uptime);
+					updateTextInElement("totalTime", "Total Usage Time(Hour):", data.result.totalUsed);
+				}
+			};
+
+			var fan = "checking", lamp = "checking", screen = "checking", signal = "checking", temp = "checking";
+			parser.getSystemMonitoringInfo = function(data) {
+			console.log("data " + JSON.stringify(data));
+				if (isTargetDevice(data.mac)) {
+					completeReceiveCB();
+					switch (data.result.source) {
+					case "FAN" :
+					fan = data.result.data.status;
+					break;
+					case "LAMP" :
+					lamp = data.result.data.status;
+					break;
+					case "SCREEN" :
+					screen = data.result.data.status;
+					break;
+					case "THERMOMETER" :
+					temp = data.result.data.temperature; 
+					break;
+					}
+					
+					updateTextInElement("monitoringFan", "Fan:", fan);
+					updateTextInElement("monitoringLamp", "Lamp:", lamp);
+					updateTextInElement("monitoringScreen", "Screen:", screen);
+					updateTextInElement("monitoringSignal", "Signal:", signal);
+					updateTextInElement("monitoringTemp", "Temperature('C):", temp);
+				}
+			};
+
+		}
+
+	</script>
+</html>
